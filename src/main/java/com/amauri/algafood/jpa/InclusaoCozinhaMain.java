@@ -18,11 +18,11 @@ public class InclusaoCozinhaMain {
         Cozinha cozinha1 = new Cozinha();
         cozinha1.setNome("Africana");
 
-        cozinhaRepository.adicionar(cozinha1);
+        cozinhaRepository.salvar(cozinha1);
 
         Cozinha cozinha2 = new Cozinha();
         cozinha2.setNome("Nordestina");
 
-        cozinhaRepository.adicionar(cozinha2);
+        cozinhaRepository.salvar(cozinha2);
     }
 }
