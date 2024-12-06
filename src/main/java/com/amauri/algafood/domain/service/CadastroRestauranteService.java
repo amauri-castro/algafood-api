@@ -5,6 +5,7 @@ import com.amauri.algafood.domain.model.Cozinha;
 import com.amauri.algafood.domain.model.Restaurante;
 import com.amauri.algafood.domain.repository.CozinhaRepository;
 import com.amauri.algafood.domain.repository.RestauranteRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,4 +30,5 @@ public class CadastroRestauranteService {
         restaurante.setCozinha(cozinha);
         return restauranteRepository.salvar(restaurante);
     }
+
 }
