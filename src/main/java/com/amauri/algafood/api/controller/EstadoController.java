@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/estados")
@@ -26,13 +27,13 @@ public class EstadoController {
 
     @GetMapping
     public List<Estado> listar() {
-        return estadoRepository.listar();
+        return estadoRepository.findAll();
     }
 
     @GetMapping("/{estadoId}")
     public ResponseEntity<Estado> buscar(@PathVariable Long estadoId) {
-        Estado estado = estadoRepository.buscar(estadoId);
-        return estado != null ? ResponseEntity.ok(estado) : ResponseEntity.notFound().build();
+        Optional<Estado> estado = estadoRepository.findById(estadoId);
+        return estado.isPresent()? ResponseEntity.ok(estado.get()) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
@@ -43,7 +44,7 @@ public class EstadoController {
 
     @PutMapping("/{estadoId}")
     public ResponseEntity<Estado> atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
-        Estado estadoAtual = estadoRepository.buscar(estadoId);
+        Estado estadoAtual = estadoRepository.findById(estadoId).orElse(null);
         if( estadoAtual != null) {
             BeanUtils.copyProperties(estado, estadoAtual, "id");
             estadoAtual = cadastroEstado.salvar(estadoAtual);

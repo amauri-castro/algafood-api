@@ -3,7 +3,6 @@ package com.amauri.algafood.domain.service;
 import com.amauri.algafood.domain.exception.EntidadeEmUsoException;
 import com.amauri.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.amauri.algafood.domain.model.Cidade;
-import com.amauri.algafood.domain.model.Cozinha;
 import com.amauri.algafood.domain.model.Estado;
 import com.amauri.algafood.domain.repository.CidadeRepository;
 import com.amauri.algafood.domain.repository.EstadoRepository;
@@ -23,18 +22,16 @@ public class CadastroCidadeService {
 
     public Cidade salvar(Cidade cidade) {
         Long estadoId = cidade.getEstado().getId();
-        Estado estado = estadoRepository.buscar(estadoId);
-        if(estado == null) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe cadastro de estado com o código %d", estadoId));
-        }
+        Estado estado = estadoRepository.findById(estadoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                        String.format("Não existe cadastro de estado com o código %d", estadoId)));
         cidade.setEstado(estado);
-        return cidadeRepository.salvar(cidade);
+        return cidadeRepository.save(cidade);
     }
 
     public void excluir(Long cidadeId) {
         try {
-            cidadeRepository.remover(cidadeId);
+            cidadeRepository.deleteById(cidadeId);
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(
                     String.format("Não existe um cadastro de Cidade com o código %d",cidadeId));
