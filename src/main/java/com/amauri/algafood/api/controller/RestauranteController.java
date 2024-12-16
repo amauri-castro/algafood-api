@@ -29,7 +29,10 @@ public class RestauranteController {
 
     @GetMapping
     public ResponseEntity<List<Restaurante>> listar() {
-        return ResponseEntity.ok(restauranteRepository.findAll());
+        List<Restaurante> restaurantes = restauranteRepository.findAll();
+
+        //restaurantes.get(0).getCozinha();
+        return ResponseEntity.ok(restaurantes);
     }
 
     @GetMapping("/{restauranteId}")
