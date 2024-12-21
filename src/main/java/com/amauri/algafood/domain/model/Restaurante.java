@@ -49,7 +49,7 @@ public class Restaurante {
     @UpdateTimestamp
     private LocalDateTime dataAtualizacao;
 
-    //@JsonIgnore
+    @JsonIgnore
     @ManyToMany //por padrao é lazy
     @JoinTable(name = "restaurante_forma_pagamento",
         joinColumns = @JoinColumn(name = "restaurante_id"),
