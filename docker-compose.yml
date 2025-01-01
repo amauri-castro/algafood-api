@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0.32
+    container_name: mysql8-container
+    environment:
+      MYSQL_ROOT_PASSWORD: 123        # Senha do usuário root
+      MYSQL_DATABASE: algafood                 # Nome do banco de dados a ser criado
+      MYSQL_USER: amauri                   # Nome do usuário
+      MYSQL_PASSWORD: 123            # Senha do usuário
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql                # Persistência dos dados
+    networks:
+      - mysql-network
+
+volumes:
+  mysql-data:
+
+networks:
+  mysql-network:
+    driver: bridge
