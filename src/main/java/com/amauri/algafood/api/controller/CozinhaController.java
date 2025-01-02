@@ -34,10 +34,6 @@ public class CozinhaController {
     @GetMapping("/{cozinhaId}")
     public Cozinha buscar(@PathVariable("cozinhaId") Long id) {
         return cadastroCozinha.buscarOuFalhar(id);
-
-//        Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
-//        return cozinha.map(ResponseEntity::ok)
-//                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -50,8 +46,8 @@ public class CozinhaController {
     public Cozinha atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
         Cozinha cozinhaAtual = cadastroCozinha.buscarOuFalhar(cozinhaId);
 
-            BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-            return cadastroCozinha.salvar(cozinhaAtual);
+        BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+        return cadastroCozinha.salvar(cozinhaAtual);
     }
 
     @DeleteMapping("/{cozinhaId}")
