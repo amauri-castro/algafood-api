@@ -1,5 +1,7 @@
 package com.amauri.algafood.api.controller;
 
+import com.amauri.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.amauri.algafood.domain.exception.NegocioException;
 import com.amauri.algafood.domain.model.Restaurante;
 import com.amauri.algafood.domain.repository.RestauranteRepository;
 import com.amauri.algafood.domain.service.CadastroRestauranteService;
@@ -42,7 +44,11 @@ public class RestauranteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurante salvar(@RequestBody Restaurante restaurante) {
-        return cadastroRestauranteService.salvar(restaurante);
+        try {
+            return cadastroRestauranteService.salvar(restaurante);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @PutMapping("/{restauranteId}")
@@ -53,8 +59,11 @@ public class RestauranteController {
 
         BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco",
                         "dataCadastro", "produtos");
-
-        return cadastroRestauranteService.salvar(restauranteAtual);
+        try {
+            return cadastroRestauranteService.salvar(restauranteAtual);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @PatchMapping("/{restauranteId}")
