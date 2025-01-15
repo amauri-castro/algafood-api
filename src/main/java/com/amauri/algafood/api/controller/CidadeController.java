@@ -1,6 +1,7 @@
 package com.amauri.algafood.api.controller;
 
 import com.amauri.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.amauri.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.amauri.algafood.domain.exception.NegocioException;
 import com.amauri.algafood.domain.model.Cidade;
 import com.amauri.algafood.domain.repository.CidadeRepository;
@@ -42,20 +43,19 @@ public class CidadeController {
     public Cidade salvar(@RequestBody Cidade cidade) {
         try {
             return cadastroCidade.salvar(cidade);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
+        } catch (EstadoNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
         }
     }
 
     @PutMapping("/{cidadeId}")
     public Cidade atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
-        Cidade cidadeAtual = cadastroCidade.buscarOuFalhar(cidadeId);
-        BeanUtils.copyProperties(cidade, cidadeAtual, "id");
-
         try {
+            Cidade cidadeAtual = cadastroCidade.buscarOuFalhar(cidadeId);
+            BeanUtils.copyProperties(cidade, cidadeAtual, "id");
             return cadastroCidade.salvar(cidadeAtual);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
+        } catch (EstadoNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
         }
     }
 
