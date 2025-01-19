@@ -1,7 +1,5 @@
 package com.amauri.algafood.api.controller;
 
-import com.amauri.algafood.api.exceptionhandler.Problema;
-import com.amauri.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.amauri.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.amauri.algafood.domain.exception.NegocioException;
 import com.amauri.algafood.domain.model.Cidade;
@@ -11,10 +9,8 @@ import com.amauri.algafood.domain.service.CadastroCidadeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
