@@ -1,5 +1,6 @@
 package com.amauri.algafood.domain.model;
 
+import com.amauri.algafood.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -27,19 +28,19 @@ public class Restaurante {
 
 //    @NotNull
 //    @NotEmpty
-    @NotBlank
+    @NotBlank(groups = {Groups.CadastroRestaurante.class})
     @Column(nullable = false)
     private String nome;
 
     //@DecimalMin("0")
-    @PositiveOrZero
+    @PositiveOrZero(groups = {Groups.CadastroRestaurante.class})
     @Column(nullable = false)
     private BigDecimal taxaFrete;
 
    //@JsonIgnore
   //  @JsonIgnoreProperties("hibernateLazyInitializer")
     @Valid
-    @NotNull
+    @NotNull(groups = {Groups.CadastroRestaurante.class})
     @ManyToOne // por padrao é eager
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
