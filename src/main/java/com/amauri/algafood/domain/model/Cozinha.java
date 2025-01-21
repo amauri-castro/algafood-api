@@ -19,7 +19,7 @@ import java.util.List;
 public class Cozinha {
 
     @EqualsAndHashCode.Include
-    @NotNull(groups = {Groups.CadastroRestaurante.class})
+    @NotNull(groups = {Groups.CozinhaId.class})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
