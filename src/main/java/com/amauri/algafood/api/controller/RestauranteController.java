@@ -1,6 +1,5 @@
 package com.amauri.algafood.api.controller;
 
-import com.amauri.algafood.Groups;
 import com.amauri.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.amauri.algafood.domain.exception.NegocioException;
 import com.amauri.algafood.domain.model.Restaurante;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

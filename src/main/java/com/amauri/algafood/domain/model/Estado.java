@@ -1,6 +1,6 @@
 package com.amauri.algafood.domain.model;
 
-import com.amauri.algafood.Groups;
+import com.amauri.algafood.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

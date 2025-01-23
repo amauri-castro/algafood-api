@@ -1,6 +1,9 @@
 package com.amauri.algafood.domain.model;
 
-import com.amauri.algafood.Groups;
+import com.amauri.algafood.core.validation.Groups;
+import com.amauri.algafood.core.validation.Multiplo;
+import com.amauri.algafood.core.validation.TaxaFrete;
+import com.amauri.algafood.core.validation.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,6 +20,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@ValorZeroIncluiDescricao
+        (valorField = "taxaFrete",
+        descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -35,6 +41,8 @@ public class Restaurante {
 
     @NotNull
     @PositiveOrZero
+//    @TaxaFrete
+//    @Multiplo(numero = 5)
     @Column(nullable = false)
     private BigDecimal taxaFrete;
 
