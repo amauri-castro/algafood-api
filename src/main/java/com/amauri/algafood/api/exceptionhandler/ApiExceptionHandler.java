@@ -8,6 +8,9 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String MSG_ERRO_GENERICA_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. Tente novamente e se o problema " +
             "persistir, entre em contato com o administrador do sistema.";
 
+    @Autowired
+    private MessageSource messageSource;
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleUnchaught(Exception ex, WebRequest request) {
 
@@ -52,10 +58,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         BindingResult bindingResult = ex.getBindingResult();
         List<Problem.Field> problemFields = bindingResult.getFieldErrors()
                 .stream()
-                .map(fieldError -> Problem.Field.builder()
+                .map(fieldError -> {
+                    String message = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
+
+                    return Problem.Field.builder()
                         .name(fieldError.getField())
-                        .userMessage(fieldError.getDefaultMessage())
-                        .build())
+                        .userMessage(message)
+                        .build();
+                })
                 .collect(Collectors.toList());
 
         Problem problem = createProblemBuilder(status, problemType, detail)
@@ -183,7 +193,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ProblemType problemType = ProblemType.ERRO_NEGOCIO;
         String detail = ex.getMessage();
         Problem problem = createProblemBuilder(status, problemType, detail)
-                .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+                .userMessage(detail)
                 .build();
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
