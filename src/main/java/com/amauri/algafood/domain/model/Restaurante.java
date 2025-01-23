@@ -33,13 +33,10 @@ public class Restaurante {
     @Column(nullable = false)
     private String nome;
 
-    //@DecimalMin("0")
     @PositiveOrZero
     @Column(nullable = false)
     private BigDecimal taxaFrete;
 
-   //@JsonIgnore
-  //  @JsonIgnoreProperties("hibernateLazyInitializer")
     @Valid
     @ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
     @NotNull
