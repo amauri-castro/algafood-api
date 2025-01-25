@@ -15,9 +15,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
 class CadastroCozinhaIT {
@@ -37,6 +34,8 @@ class CadastroCozinhaIT {
 	CozinhaRepository cozinhaRepository;
 
 
+
+
 	@BeforeEach
 	public void setUp() {
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
@@ -44,7 +43,7 @@ class CadastroCozinhaIT {
 		RestAssured.basePath = "/cozinhas";
 
 		jsonCorretoCozinhaChinesa = ResourceUtils.lerArquivoDoResource(
-				"/json/cozinha-chinesa.json");
+				"/json/correto/cozinha-chinesa.json");
 
 		databaseCleaner.clearTables();
 		prepararDados();
@@ -108,20 +107,19 @@ class CadastroCozinhaIT {
 	}
 
 	private void prepararDados() {
-		List<Cozinha> cozinhasSalvas = new ArrayList<>();
-		Cozinha cozinha1 = new Cozinha();
-		cozinha1.setNome("Tailandesa");
-		cozinhasSalvas.add(cozinhaRepository.save(cozinha1));
+		Cozinha cozinhaTailandesa = new Cozinha();
+		cozinhaTailandesa.setNome("Tailandesa");
+		cozinhaRepository.save(cozinhaTailandesa);
 
-		Cozinha cozinha2 = new Cozinha();
-		cozinha2.setNome("Brasileira");
-		cozinhasSalvas.add(cozinhaRepository.save(cozinha2));
+		Cozinha cozinhaBrasileira = new Cozinha();
+		cozinhaBrasileira.setNome("Brasileira");
+		cozinhaRepository.save(cozinhaBrasileira);
 
 		cozinhaAmericana = new Cozinha();
 		cozinhaAmericana.setNome("Americana");
-		cozinhasSalvas.add(cozinhaRepository.save(cozinhaAmericana));
+		cozinhaRepository.save(cozinhaAmericana);
 
-		quantidadeCozinhas = cozinhasSalvas.size();
+		quantidadeCozinhas = (int) cozinhaRepository.count();
 	}
 
 

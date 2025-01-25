@@ -1,0 +1,7 @@
+{
+  "nome": "Bode do Sertão",
+  "taxaFrete": 15,
+  "cozinha": {
+    "id": 20
+  }
+}
