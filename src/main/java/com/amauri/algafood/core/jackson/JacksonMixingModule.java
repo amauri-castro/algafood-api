@@ -3,9 +3,9 @@ package com.amauri.algafood.core.jackson;
 import com.amauri.algafood.domain.model.Cidade;
 import com.amauri.algafood.domain.model.Cozinha;
 import com.amauri.algafood.domain.model.Restaurante;
-import com.amauri.algafood.domain.model.mixing.CidadeMixing;
-import com.amauri.algafood.domain.model.mixing.CozinhaMixing;
-import com.amauri.algafood.domain.model.mixing.RestauranteMixing;
+import com.amauri.algafood.api.model.mixing.CidadeMixing;
+import com.amauri.algafood.api.model.mixing.CozinhaMixing;
+import com.amauri.algafood.api.model.mixing.RestauranteMixing;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.stereotype.Component;
 

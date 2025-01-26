@@ -1,4 +1,4 @@
-package com.amauri.algafood.domain.model.mixing;
+package com.amauri.algafood.api.model.mixing;
 
 import com.amauri.algafood.domain.model.Estado;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
