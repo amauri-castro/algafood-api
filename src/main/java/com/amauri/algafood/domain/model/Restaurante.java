@@ -15,7 +15,7 @@ import javax.validation.constraints.PositiveOrZero;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,11 +53,11 @@ public class Restaurante {
 
     @Column(nullable = false, columnDefinition = "datetime")
     @CreationTimestamp
-    private LocalDateTime dataCadastro;
+    private OffsetDateTime dataCadastro;
 
     @Column(nullable = false, columnDefinition = "datetime")
     @UpdateTimestamp
-    private LocalDateTime dataAtualizacao;
+    private OffsetDateTime dataAtualizacao;
 
     @ManyToMany //por padrao é lazy
     @JoinTable(name = "restaurante_forma_pagamento",
