@@ -9,5 +9,5 @@ import lombok.Setter;
 public class CidadeModel {
     private Long id;
     private String nome;
-    private Estado estado;
+    private EstadoModel estado;
 }
