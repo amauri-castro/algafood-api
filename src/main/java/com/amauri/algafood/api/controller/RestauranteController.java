@@ -4,6 +4,7 @@ import com.amauri.algafood.api.assembler.RestauranteInputDisassembler;
 import com.amauri.algafood.api.assembler.RestauranteModelAssembler;
 import com.amauri.algafood.api.model.RestauranteModel;
 import com.amauri.algafood.api.model.input.RestauranteInput;
+import com.amauri.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.amauri.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.amauri.algafood.domain.exception.NegocioException;
 import com.amauri.algafood.domain.model.Restaurante;
@@ -50,7 +51,7 @@ public class RestauranteController {
         try {
             Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
             return restauranteModelAssembler.toModel(cadastroRestauranteService.salvar(restaurante));
-        } catch (CozinhaNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
@@ -63,7 +64,7 @@ public class RestauranteController {
             restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
             return restauranteModelAssembler.toModel(cadastroRestauranteService.salvar(restauranteAtual));
 
-        } catch (CozinhaNaoEncontradaException e) {
+        } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }

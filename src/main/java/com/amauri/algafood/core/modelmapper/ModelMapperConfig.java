@@ -1,9 +1,7 @@
 package com.amauri.algafood.core.modelmapper;
 
 import com.amauri.algafood.api.model.EnderecoModel;
-import com.amauri.algafood.api.model.RestauranteModel;
 import com.amauri.algafood.domain.model.Endereco;
-import com.amauri.algafood.domain.model.Restaurante;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
