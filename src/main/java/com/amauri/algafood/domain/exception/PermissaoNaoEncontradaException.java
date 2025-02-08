@@ -5,7 +5,7 @@ public class PermissaoNaoEncontradaException extends EntidadeNaoEncontradaExcept
         super(mensagem);
     }
 
-    public PermissaoNaoEncontradaException(Long formaPagamentoId) {
-        this(String.format("Não existe um cadastro de Forma de pagamento com o código %d", formaPagamentoId));
+    public PermissaoNaoEncontradaException(Long permissaoId) {
+        this(String.format("Não existe um cadastro de Permissão com o código %d", permissaoId));
     }
 }

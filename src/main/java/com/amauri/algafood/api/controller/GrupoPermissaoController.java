@@ -28,16 +28,16 @@ public class GrupoPermissaoController {
         return permissaoModelAssembler.toCollectionModel(grupo.getPermissoes());
     }
 
-    @DeleteMapping("/{formaPagamentoId}")
+    @DeleteMapping("/{permissaoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void desvincular(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
-        cadastroGrupoService.desvincularFormaPagamento(restauranteId, formaPagamentoId);
+    public void desvincular(@PathVariable Long grupoId, @PathVariable Long permissaoId) {
+        cadastroGrupoService.desvincularPermissao(grupoId, permissaoId);
     }
 
-    @PutMapping("/{formaPagamentoId}")
+    @PutMapping("/{permissaoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void vincular(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
-        cadastroGrupoService.vincularFormaPagamento(restauranteId, formaPagamentoId);
+    public void vincular(@PathVariable Long grupoId, @PathVariable Long permissaoId) {
+        cadastroGrupoService.vincularPermissao(grupoId, permissaoId);
     }
 
 

@@ -2,10 +2,8 @@ package com.amauri.algafood.domain.service;
 
 import com.amauri.algafood.domain.exception.EntidadeEmUsoException;
 import com.amauri.algafood.domain.exception.GrupoNaoEncontradoException;
-import com.amauri.algafood.domain.model.FormaPagamento;
 import com.amauri.algafood.domain.model.Grupo;
 import com.amauri.algafood.domain.model.Permissao;
-import com.amauri.algafood.domain.model.Restaurante;
 import com.amauri.algafood.domain.repository.GrupoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,7 +19,8 @@ public class CadastroGrupoService {
     @Autowired
     private GrupoRepository grupoRepository;
 
-    private CadastroPermissaoService
+    @Autowired
+    private CadastroPermissaoService cadastroPermissaoService;
 
     public Grupo buscarOuFalhar(Long grupoId) {
         return grupoRepository.findById(grupoId)
@@ -49,14 +48,14 @@ public class CadastroGrupoService {
     @Transactional
     public void desvincularPermissao(Long grupoId, Long permissaoId) {
         Grupo grupo = buscarOuFalhar(grupoId);
-        Permissao permissao = cadastroFormaPagamentoService.buscarOuFalhar(formaPagamentoId);
-        grupo.removerFormaPagamento(permissao);
+        Permissao permissao = cadastroPermissaoService.buscarOuFalhar(permissaoId);
+        grupo.removerPermissao(permissao);
     }
 
     @Transactional
-    public void vincularFormaPagamento(Long restauranteId, Long formaPagamentoId) {
-        Restaurante restaurante = buscarOuFalhar(restauranteId);
-        FormaPagamento formaPagamento = cadastroFormaPagamentoService.buscarOuFalhar(formaPagamentoId);
-        restaurante.adicionarFormaPagamento(formaPagamento);
+    public void vincularPermissao(Long grupoId, Long permissaoId) {
+        Grupo grupo = buscarOuFalhar(grupoId);
+        Permissao permissao = cadastroPermissaoService.buscarOuFalhar(permissaoId);
+        grupo.adicionarPermissao(permissao);
     }
 }
