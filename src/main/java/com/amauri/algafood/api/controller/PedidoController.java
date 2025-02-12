@@ -1,7 +1,9 @@
 package com.amauri.algafood.api.controller;
 
 import com.amauri.algafood.api.assembler.PedidoModelAssembler;
+import com.amauri.algafood.api.assembler.PedidoResumoModelAssembler;
 import com.amauri.algafood.api.model.PedidoModel;
+import com.amauri.algafood.api.model.PedidoResumoModel;
 import com.amauri.algafood.domain.model.Pedido;
 import com.amauri.algafood.domain.repository.PedidoRepository;
 import com.amauri.algafood.domain.service.EmissaoPedidoService;
@@ -26,10 +28,13 @@ public class PedidoController {
     @Autowired
     private PedidoModelAssembler pedidoModelAssembler;
 
+    @Autowired
+    private PedidoResumoModelAssembler pedidoResumoModelAssembler;
+
     @GetMapping
-    public List<PedidoModel> listar() {
+    public List<PedidoResumoModel> listar() {
         List<Pedido> pedidos = pedidoRepository.findAll();
-        return pedidoModelAssembler.toCollectionModel(pedidos);
+        return pedidoResumoModelAssembler.toCollectionModel(pedidos);
     }
 
     @GetMapping("/{pedidoId}")
