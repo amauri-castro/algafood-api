@@ -2,6 +2,7 @@ package com.amauri.algafood.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
+@ToString(onlyExplicitlyIncluded = true)
 @Entity
 public class Usuario {
 

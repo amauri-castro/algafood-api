@@ -3,6 +3,7 @@ package com.amauri.algafood.domain.model;
 import com.amauri.algafood.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -12,6 +13,7 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
 @Data
+@ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class Cidade {

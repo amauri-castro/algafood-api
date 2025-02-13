@@ -3,6 +3,7 @@ package com.amauri.algafood.domain.model;
 import com.amauri.algafood.core.validation.ValorZeroIncluiDescricao;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -19,6 +20,7 @@ import java.util.Set;
         (valorField = "taxaFrete",
         descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Data
+@ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class Restaurante {

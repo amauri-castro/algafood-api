@@ -1,10 +1,12 @@
 package com.amauri.algafood.domain.model;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Data
+@ToString(onlyExplicitlyIncluded = true)
 @Embeddable
 public class Endereco {
 

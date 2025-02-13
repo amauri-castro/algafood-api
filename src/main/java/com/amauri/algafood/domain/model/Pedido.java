@@ -3,6 +3,7 @@ package com.amauri.algafood.domain.model;
 import com.amauri.algafood.domain.enums.StatusPedidoEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
+@ToString(onlyExplicitlyIncluded = true)
 @Entity
 public class Pedido {
 
@@ -43,7 +45,7 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private StatusPedidoEnum status = StatusPedidoEnum.CRIADO;
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens = new ArrayList<>();
 
     @CreationTimestamp
@@ -54,6 +56,8 @@ public class Pedido {
     private OffsetDateTime dataEntrega;
 
     public void calcularValorTotal() {
+        getItens().forEach(ItemPedido::calcularPrecoTotal);
+
         this.subtotal = getItens()
                 .stream()
                 .map(ItemPedido::getPrecoTotal)
@@ -62,11 +66,4 @@ public class Pedido {
         this.valorTotal = this.subtotal.add(this.taxaFrete);
     }
 
-    public void definirFrete() {
-        setTaxaFrete(getRestaurante().getTaxaFrete());
-    }
-
-    public void atribuirPEdidoAosItens() {
-        getItens().forEach(item -> item.setPedido(this));
-    }
 }
