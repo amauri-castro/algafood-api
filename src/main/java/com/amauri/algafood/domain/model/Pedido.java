@@ -1,6 +1,7 @@
 package com.amauri.algafood.domain.model;
 
 import com.amauri.algafood.domain.enums.StatusPedidoEnum;
+import com.amauri.algafood.domain.exception.NegocioException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -64,6 +65,30 @@ public class Pedido {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.valorTotal = this.subtotal.add(this.taxaFrete);
+    }
+
+    public void confirmar() {
+        setStatus(StatusPedidoEnum.CONFIRMADO);
+        setDataConfirmacao(OffsetDateTime.now());
+    }
+
+    public void entregar() {
+        setStatus(StatusPedidoEnum.ENTREGUE);
+        setDataEntrega(OffsetDateTime.now());
+    }
+
+    public void cancelar() {
+        setStatus(StatusPedidoEnum.CANCELADO);
+        setDataCancelamento(OffsetDateTime.now());
+    }
+
+    private void setStatus(StatusPedidoEnum novoStatus) {
+        if (getStatus().naoPodeAlterarPara(novoStatus)) {
+            throw new NegocioException(String.format("Status do pedido %d não pode ser " +
+                            "alterado de %s para %s", getId(),
+                    getStatus().getDescricao(), novoStatus.getDescricao()));
+        }
+        this.status = novoStatus;
     }
 
 }
