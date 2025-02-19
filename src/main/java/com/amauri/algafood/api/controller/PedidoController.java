@@ -11,7 +11,9 @@ import com.amauri.algafood.domain.exception.NegocioException;
 import com.amauri.algafood.domain.model.Pedido;
 import com.amauri.algafood.domain.model.Usuario;
 import com.amauri.algafood.domain.repository.PedidoRepository;
+import com.amauri.algafood.domain.repository.filter.PedidoFilter;
 import com.amauri.algafood.domain.service.EmissaoPedidoService;
+import com.amauri.algafood.infrastructure.repository.spec.PedidoSpecs;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.apache.commons.lang3.StringUtils;
@@ -59,9 +61,15 @@ public class PedidoController {
 //        return pedidosWrapper;
 //    }
 
+//    @GetMapping
+//    public List<PedidoResumoModel> listar() {
+//        List<Pedido> pedidos = pedidoRepository.findAll();
+//        return pedidoResumoModelAssembler.toCollectionModel(pedidos);
+//    }
+
     @GetMapping
-    public List<PedidoResumoModel> listar() {
-        List<Pedido> pedidos = pedidoRepository.findAll();
+    public List<PedidoResumoModel> listar(PedidoFilter filtro) {
+        List<Pedido> pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filtro));
         return pedidoResumoModelAssembler.toCollectionModel(pedidos);
     }
 
