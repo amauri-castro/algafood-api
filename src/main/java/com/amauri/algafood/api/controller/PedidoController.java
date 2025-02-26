@@ -12,7 +12,7 @@ import com.amauri.algafood.domain.exception.NegocioException;
 import com.amauri.algafood.domain.model.Pedido;
 import com.amauri.algafood.domain.model.Usuario;
 import com.amauri.algafood.domain.repository.PedidoRepository;
-import com.amauri.algafood.domain.repository.filter.PedidoFilter;
+import com.amauri.algafood.domain.filter.PedidoFilter;
 import com.amauri.algafood.domain.service.EmissaoPedidoService;
 import com.amauri.algafood.infrastructure.repository.spec.PedidoSpecs;
 import org.springframework.beans.factory.annotation.Autowired;

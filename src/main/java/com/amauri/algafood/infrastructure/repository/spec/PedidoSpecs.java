@@ -2,7 +2,7 @@ package com.amauri.algafood.infrastructure.repository.spec;
 
 import com.amauri.algafood.domain.model.Pedido;
 import com.amauri.algafood.domain.model.Restaurante;
-import com.amauri.algafood.domain.repository.filter.PedidoFilter;
+import com.amauri.algafood.domain.filter.PedidoFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
