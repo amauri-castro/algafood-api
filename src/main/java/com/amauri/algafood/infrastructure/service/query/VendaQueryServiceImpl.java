@@ -1,10 +1,10 @@
-package com.amauri.algafood.infrastructure.service;
+package com.amauri.algafood.infrastructure.service.query;
 
 import com.amauri.algafood.domain.enums.StatusPedidoEnum;
 import com.amauri.algafood.domain.filter.VendaDiariaFilter;
 import com.amauri.algafood.domain.model.Pedido;
 import com.amauri.algafood.domain.model.dto.VendaDiaria;
-import com.amauri.algafood.domain.repository.VendaQueryService;
+import com.amauri.algafood.domain.service.VendaQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
