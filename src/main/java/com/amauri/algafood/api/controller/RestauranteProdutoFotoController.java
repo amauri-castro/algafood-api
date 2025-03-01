@@ -11,6 +11,7 @@ import com.amauri.algafood.domain.service.CatalogoFotoProdutoService;
 import com.amauri.algafood.domain.service.FotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -69,7 +70,7 @@ public class RestauranteProdutoFotoController {
     }
 
     @GetMapping()
-    public ResponseEntity<InputStreamResource> buscarFoto(@PathVariable Long restauranteId,
+    public ResponseEntity<InputStreamResource> servirFoto(@PathVariable Long restauranteId,
                                                           @PathVariable Long produtoId,
                                                           @RequestHeader(name = "accept") String acceptHeader)
             throws HttpMediaTypeNotAcceptableException {
@@ -91,6 +92,12 @@ public class RestauranteProdutoFotoController {
             return ResponseEntity.notFound().build();
         }
 
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping
+    public void excluirFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
+        catalogoFotoProduto.excluir(restauranteId, produtoId);
     }
 
     private void verificarCompatibilidadeMediaType(MediaType mediaTypeFoto, List<MediaType> mediaTypesAceitas) throws HttpMediaTypeNotAcceptableException {
