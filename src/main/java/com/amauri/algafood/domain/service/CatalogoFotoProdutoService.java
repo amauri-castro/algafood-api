@@ -1,5 +1,8 @@
 package com.amauri.algafood.domain.service;
 
+import com.amauri.algafood.domain.exception.FormaPagamentoNaoEncontradaException;
+import com.amauri.algafood.domain.exception.FotoProdutoNaoEncontradaException;
+import com.amauri.algafood.domain.exception.ProdutoNaoEncontradoException;
 import com.amauri.algafood.domain.model.FotoProduto;
 import com.amauri.algafood.domain.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +49,10 @@ public class CatalogoFotoProdutoService {
         fotoStorage.substituir(nomeArquivoExistente,novaFoto);
 
         return foto;
+    }
+
+    public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
+        return produtoRepository.findFotoById(restauranteId, produtoId)
+                .orElseThrow(() -> new FotoProdutoNaoEncontradaException(restauranteId, produtoId));
     }
 }
