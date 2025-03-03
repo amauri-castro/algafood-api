@@ -3,24 +3,25 @@ package com.amauri.algafood.infrastructure.service.storage;
 import com.amauri.algafood.core.storage.StorageProperties;
 import com.amauri.algafood.domain.service.FotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-//@Service
+
 public class LocalFotoStorageService implements FotoStorageService {
 
     @Autowired
     private StorageProperties storageProperties;
 
     @Override
-    public InputStream recuperar(String nomeArquivo) {
+    public FotoRecuperada recuperar(String nomeArquivo) {
         try {
             Path arquivoSalvoPath = getArquivoPath(nomeArquivo);
-            return Files.newInputStream(arquivoSalvoPath);
+            return FotoRecuperada.builder()
+                    .inputStream(Files.newInputStream(arquivoSalvoPath))
+                    .build();
+
         } catch (Exception e) {
             throw new StorageException("Não foi possível recuperar o arquivo.", e);
         }
