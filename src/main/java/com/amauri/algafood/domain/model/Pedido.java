@@ -1,11 +1,14 @@
 package com.amauri.algafood.domain.model;
 
 import com.amauri.algafood.domain.enums.StatusPedidoEnum;
+import com.amauri.algafood.domain.event.PedidoCanceladoEvent;
+import com.amauri.algafood.domain.event.PedidoConfirmadoEvent;
 import com.amauri.algafood.domain.exception.NegocioException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
 @ToString(onlyExplicitlyIncluded = true)
 @Entity
-public class Pedido {
+public class Pedido extends AbstractAggregateRoot<Pedido> {
 
     @EqualsAndHashCode.Include
     @Id
@@ -73,6 +76,7 @@ public class Pedido {
     public void confirmar() {
         setStatus(StatusPedidoEnum.CONFIRMADO);
         setDataConfirmacao(OffsetDateTime.now());
+        registerEvent(new PedidoConfirmadoEvent(this));
     }
 
     public void entregar() {
@@ -83,6 +87,7 @@ public class Pedido {
     public void cancelar() {
         setStatus(StatusPedidoEnum.CANCELADO);
         setDataCancelamento(OffsetDateTime.now());
+        registerEvent(new PedidoCanceladoEvent(this));
     }
 
     private void setStatus(StatusPedidoEnum novoStatus) {
