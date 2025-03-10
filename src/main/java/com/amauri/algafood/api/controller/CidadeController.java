@@ -10,6 +10,7 @@ import com.amauri.algafood.domain.model.Cidade;
 import com.amauri.algafood.domain.repository.CidadeRepository;
 import com.amauri.algafood.domain.repository.EstadoRepository;
 import com.amauri.algafood.domain.service.CadastroCidadeService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Api(tags = "Cidades")
 @RestController
 @RequestMapping("/cidades")
 public class CidadeController {
