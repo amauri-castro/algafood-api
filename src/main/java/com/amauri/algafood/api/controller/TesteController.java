@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/teste")
+//@RestController
+//@RequestMapping("/teste")
 public class TesteController {
 
     @Autowired
