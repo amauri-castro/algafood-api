@@ -2,7 +2,7 @@ package com.amauri.algafood.api.controller;
 
 import com.amauri.algafood.api.assembler.CidadeInputDisassembler;
 import com.amauri.algafood.api.assembler.CidadeModelAssembler;
-import com.amauri.algafood.api.controller.openapi.CidadeControllerOpenApi;
+import com.amauri.algafood.api.openapi.controller.CidadeControllerOpenApi;
 import com.amauri.algafood.api.model.CidadeModel;
 import com.amauri.algafood.api.model.input.CidadeInput;
 import com.amauri.algafood.domain.exception.EstadoNaoEncontradoException;
