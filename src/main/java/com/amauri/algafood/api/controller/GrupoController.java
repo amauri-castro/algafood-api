@@ -2,6 +2,7 @@ package com.amauri.algafood.api.controller;
 
 import com.amauri.algafood.api.assembler.GrupoInputDisassembler;
 import com.amauri.algafood.api.assembler.GrupoModelAssembler;
+import com.amauri.algafood.api.controller.openapi.GrupoControllerOpenApi;
 import com.amauri.algafood.api.model.GrupoModel;
 import com.amauri.algafood.api.model.input.GrupoInput;
 import com.amauri.algafood.domain.model.Grupo;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/grupos")
-public class GrupoController {
+public class GrupoController implements GrupoControllerOpenApi {
 
     @Autowired
     private GrupoRepository grupoRepository;

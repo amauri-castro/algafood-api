@@ -26,9 +26,9 @@ public class Problem {
 
     @ApiModelProperty(example = "Violação de regra de negócio", position = 15)
     private String title;
-    @ApiModelProperty(example = "Não existe um cadastro de Estado com o código 4", position = 20)
+    @ApiModelProperty(example = "Não existe um cadastro da entidade com o código 4", position = 20)
     private String detail;
-    @ApiModelProperty(example = "Não existe um cadastro de Estado com o código 4", position = 25)
+    @ApiModelProperty(example = "Não existe um cadastro da entidade com o código 4", position = 25)
     private String userMessage;
 
     @ApiModelProperty(value = "Lista de objetos ou campos que geraram o erro (opcional)", position = 30)
@@ -38,9 +38,9 @@ public class Problem {
     @Getter
     @Builder
     public static class Object {
-        @ApiModelProperty(example = "preco")
+        @ApiModelProperty(example = "campo")
         private String name;
-        @ApiModelProperty(example = "o preço é obrigatório")
+        @ApiModelProperty(example = "o campo é obrigatório")
         private String userMessage;
     }
 }
