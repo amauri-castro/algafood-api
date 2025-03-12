@@ -1,5 +1,6 @@
 package com.amauri.algafood.api.controller;
 
+import com.amauri.algafood.api.openapi.controller.EstatisticasControllerOpenApi;
 import com.amauri.algafood.domain.filter.VendaDiariaFilter;
 import com.amauri.algafood.domain.model.dto.VendaDiaria;
 import com.amauri.algafood.domain.service.VendaQueryService;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/estatisticas")
-public class EstatisticasController {
+public class EstatisticasController implements EstatisticasControllerOpenApi {
 
     @Autowired
     private VendaQueryService vendaQueryService;

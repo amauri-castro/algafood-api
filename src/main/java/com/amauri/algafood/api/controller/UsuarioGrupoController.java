@@ -2,17 +2,19 @@ package com.amauri.algafood.api.controller;
 
 import com.amauri.algafood.api.assembler.GrupoModelAssembler;
 import com.amauri.algafood.api.model.GrupoModel;
+import com.amauri.algafood.api.openapi.controller.UsuarioGrupoControllerOpenApi;
 import com.amauri.algafood.domain.model.Usuario;
 import com.amauri.algafood.domain.service.CadastroUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuarios/{usuarioId}/grupos")
-public class UsuarioGrupoController {
+@RequestMapping(value = "/usuarios/{usuarioId}/grupos", produces = MediaType.APPLICATION_JSON_VALUE)
+public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 
     @Autowired
     private CadastroUsuarioService cadastroUsuarioService;
