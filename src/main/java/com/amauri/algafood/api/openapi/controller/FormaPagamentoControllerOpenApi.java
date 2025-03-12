@@ -1,8 +1,8 @@
 package com.amauri.algafood.api.openapi.controller;
 
 import com.amauri.algafood.api.exceptionhandler.Problem;
-import com.amauri.algafood.api.model.CozinhaModel;
-import com.amauri.algafood.api.model.input.CozinhaInput;
+import com.amauri.algafood.api.model.FormaPagamentoModel;
+import com.amauri.algafood.api.model.input.FormaPagamentoInput;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -10,42 +10,51 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.context.request.ServletWebRequest;
 
-@Api(tags = "Cozinhas")
-public interface CozinhaControllerOpenApi {
+import javax.validation.Valid;
+import java.util.List;
 
-    @ApiOperation("Lista as cozinhas com paginação")
-    public Page<CozinhaModel> listar(Pageable pageable);
+@Api(tags = "Formas de pagamento")
+public interface FormaPagamentoControllerOpenApi {
 
-    @ApiOperation("Busca uma cozinha por Id")
+    @ApiOperation("Lista as formas de pagamento")
+    ResponseEntity<List<FormaPagamentoModel>> listar(ServletWebRequest request);
+
+    @ApiOperation("Busca uma forma de pagamento por Id")
     @ApiResponses({@ApiResponse(responseCode = "400",
-            description = "ID da cozinha inválido",
+            description = "ID da forma de pagamento inválido",
             content = @Content( schema = @Schema(implementation = Problem.class))),
-            @ApiResponse(responseCode = "404", description = "Cozinha não encontrada",
+            @ApiResponse(responseCode = "404", description = "Forma de pagamento não encontrada",
                     content = @Content(schema = @Schema(implementation = Problem.class))),
     })
-    public CozinhaModel buscar(@ApiParam("ID de uma cozinha") Long grupoId);
+    ResponseEntity<FormaPagamentoModel> buscar(@ApiParam(value = "ID de uma forma de pagamento")
+                                               @PathVariable Long formaPagamentoId,
+                                               ServletWebRequest request);
 
-    @ApiOperation("Cadastra uma cozinha")
-    @ApiResponses(@ApiResponse(responseCode = "201", description = "Cozinha cadastrada"))
-    public CozinhaModel salvar(@ApiParam(name = "corpo", value = "Representação de uma nova cozinha") CozinhaInput cozinhaInput);
+    @ApiOperation("Cadastra uma forma de pagamento")
+    @ApiResponses(@ApiResponse(responseCode = "201", description = "Forma de pagamento cadastrada"))
+    FormaPagamentoModel salvar(@ApiParam(name = "corpo", value = "Representacao de uma nova forma de pagamento")
+                               @RequestBody @Valid FormaPagamentoInput formaPagamentoInput);
 
-    @ApiOperation("Atualiza uma cozinha por ID")
+    @ApiOperation("Atualiza uma forma de pagamento por ID")
     @ApiResponses({@ApiResponse(responseCode = "200",
-            description = "Cozinha atualizada", content = @Content(schema = @Schema(implementation = Problem.class))),
-            @ApiResponse(responseCode = "404",description = "Cozinha não encontrada",
+            description = "Forma de pagamento atualizada", content = @Content(schema = @Schema(implementation = Problem.class))),
+            @ApiResponse(responseCode = "404",description = "Forma de pagamento não encontrada",
                     content = @Content(schema = @Schema(implementation = Problem.class))),
     })
-    public CozinhaModel atualizar(@ApiParam("ID de uma cozinha") Long cozinhaId, CozinhaInput cozinhaInput);
+    FormaPagamentoModel atualizar(@ApiParam(value = "Id de uma forma de pagamento")
+                                  @PathVariable Long formaPagamentoId, @RequestBody @Valid FormaPagamentoInput formaPagamentoInput);
 
-    @ApiOperation("Exclui uma cozinha por id")
+    @ApiOperation("Exclui uma forma de pagamento por id")
     @ApiResponses({@ApiResponse(responseCode = "204",
-            description = "Cozinha excluída", content = @Content(schema = @Schema(implementation = Problem.class))),
-            @ApiResponse(responseCode = "404", description = "Cozinha não encontrada",
+            description = "Forma de pagamento excluída", content = @Content(schema = @Schema(implementation = Problem.class))),
+            @ApiResponse(responseCode = "404", description = "Forma de Pagamento não encontrada",
                     content = @Content(schema = @Schema(implementation = Problem.class))),
     })
-    public void excluir(@ApiParam(value = "ID de uma cozinha") Long cozinhaId);
+    void excluir(@ApiParam(value = "ID de uma forma de pagamento") Long formaPagamentoId);
 
 }

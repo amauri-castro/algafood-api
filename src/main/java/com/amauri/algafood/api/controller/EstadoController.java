@@ -4,19 +4,21 @@ import com.amauri.algafood.api.assembler.EstadoInputDisassembler;
 import com.amauri.algafood.api.assembler.EstadoModelAssembler;
 import com.amauri.algafood.api.model.EstadoModel;
 import com.amauri.algafood.api.model.input.EstadoInput;
+import com.amauri.algafood.api.openapi.controller.EstadoControllerOpenApi;
 import com.amauri.algafood.domain.model.Estado;
 import com.amauri.algafood.domain.repository.EstadoRepository;
 import com.amauri.algafood.domain.service.CadastroEstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/estados")
-public class EstadoController {
+@RequestMapping(value = "/estados", produces = MediaType.APPLICATION_JSON_VALUE)
+public class EstadoController implements EstadoControllerOpenApi {
 
     @Autowired
     private EstadoRepository estadoRepository;

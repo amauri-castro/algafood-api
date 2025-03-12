@@ -4,12 +4,14 @@ import com.amauri.algafood.api.assembler.FormaPagamentoInputDisassembler;
 import com.amauri.algafood.api.assembler.FormaPagamentoModelAssembler;
 import com.amauri.algafood.api.model.FormaPagamentoModel;
 import com.amauri.algafood.api.model.input.FormaPagamentoInput;
+import com.amauri.algafood.api.openapi.controller.FormaPagamentoControllerOpenApi;
 import com.amauri.algafood.domain.model.FormaPagamento;
 import com.amauri.algafood.domain.repository.FormaPagamentoRepository;
 import com.amauri.algafood.domain.service.CadastroFormaPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -21,8 +23,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/formas-pagamento")
-public class FormaPagamentoController {
+@RequestMapping(value = "/formas-pagamento", produces = MediaType.APPLICATION_JSON_VALUE)
+public class FormaPagamentoController implements FormaPagamentoControllerOpenApi {
 
     @Autowired
     private FormaPagamentoRepository formaPagamentoRepository;

@@ -17,7 +17,7 @@ import java.util.List;
 public interface GrupoControllerOpenApi {
 
     @ApiOperation("Lista os grupos")
-    public List<GrupoModel> listar();
+    List<GrupoModel> listar();
 
     @ApiOperation("Busca um grupo por Id")
     @ApiResponses({@ApiResponse(responseCode = "400",
@@ -27,11 +27,11 @@ public interface GrupoControllerOpenApi {
                     description = "Grupo não encontrado", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Problem.class))),
     })
-    public GrupoModel buscar(@ApiParam("ID de um grupo") Long grupoId);
+    GrupoModel buscar(@ApiParam("ID de um grupo") Long grupoId);
 
     @ApiOperation("Cadastra um grupo")
     @ApiResponses(@ApiResponse(responseCode = "201", description = "Grupo cadastrado"))
-    public GrupoModel salvar(@ApiParam(name = "corpo", value = "Representação de um novo grupo") GrupoInput grupoInput);
+    GrupoModel salvar(@ApiParam(name = "corpo", value = "Representação de um novo grupo") GrupoInput grupoInput);
 
     @ApiOperation("Atualiza um grupo por id")
     @ApiResponses({@ApiResponse(responseCode = "200",
@@ -41,7 +41,7 @@ public interface GrupoControllerOpenApi {
                     description = "Grupo não encontrado", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Problem.class))),
     })
-    public GrupoModel atualizar(@ApiParam("ID de um grupo") Long grupoId, GrupoInput grupoInput);
+    GrupoModel atualizar(@ApiParam("ID de um grupo") Long grupoId, GrupoInput grupoInput);
 
     @ApiOperation("Exclui um grupo por id")
     @ApiResponses({@ApiResponse(responseCode = "204",
@@ -51,7 +51,7 @@ public interface GrupoControllerOpenApi {
                     description = "Grupo não encontrado", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Problem.class))),
     })
-    public void excluir(@ApiParam(value = "ID de um grupo") Long grupoId);
+    void excluir(@ApiParam(value = "ID de um grupo") Long grupoId);
 
 
 }

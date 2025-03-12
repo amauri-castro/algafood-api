@@ -1,8 +1,8 @@
 package com.amauri.algafood.api.openapi.controller;
 
 import com.amauri.algafood.api.exceptionhandler.Problem;
-import com.amauri.algafood.api.model.GrupoModel;
-import com.amauri.algafood.api.model.input.GrupoInput;
+import com.amauri.algafood.api.model.CozinhaModel;
+import com.amauri.algafood.api.model.input.CozinhaInput;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -10,48 +10,42 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+@Api(tags = "Cozinhas")
+public interface CozinhaControllerOpenApi {
 
-@Api(tags = "Grupos")
-public interface GrupoControllerOpenApi {
+    @ApiOperation("Lista as cozinhas com paginação")
+    Page<CozinhaModel> listar(Pageable pageable);
 
-    @ApiOperation("Lista os grupos")
-    public List<GrupoModel> listar();
-
-    @ApiOperation("Busca um grupo por Id")
+    @ApiOperation("Busca uma cozinha por Id")
     @ApiResponses({@ApiResponse(responseCode = "400",
-            description = "ID do grupo inválido", content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = Problem.class))),
-            @ApiResponse(responseCode = "404",
-                    description = "Grupo não encontrado", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Problem.class))),
+            description = "ID da cozinha inválido",
+            content = @Content( schema = @Schema(implementation = Problem.class))),
+            @ApiResponse(responseCode = "404", description = "Cozinha não encontrada",
+                    content = @Content(schema = @Schema(implementation = Problem.class))),
     })
-    public GrupoModel buscar(@ApiParam("ID de um grupo") Long grupoId);
+    CozinhaModel buscar(@ApiParam("ID de uma cozinha") Long grupoId);
 
-    @ApiOperation("Cadastra um grupo")
-    @ApiResponses(@ApiResponse(responseCode = "201", description = "Grupo cadastrado"))
-    public GrupoModel salvar(@ApiParam(name = "corpo", value = "Representação de um novo grupo") GrupoInput grupoInput);
+    @ApiOperation("Cadastra uma cozinha")
+    @ApiResponses(@ApiResponse(responseCode = "201", description = "Cozinha cadastrada"))
+    CozinhaModel salvar(@ApiParam(name = "corpo", value = "Representação de uma nova cozinha") CozinhaInput cozinhaInput);
 
-    @ApiOperation("Atualiza um grupo por id")
+    @ApiOperation("Atualiza uma cozinha por ID")
     @ApiResponses({@ApiResponse(responseCode = "200",
-            description = "Grupo atualizado", content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = Problem.class))),
-            @ApiResponse(responseCode = "404",
-                    description = "Grupo não encontrado", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Problem.class))),
+            description = "Cozinha atualizada", content = @Content(schema = @Schema(implementation = Problem.class))),
+            @ApiResponse(responseCode = "404",description = "Cozinha não encontrada",
+                    content = @Content(schema = @Schema(implementation = Problem.class))),
     })
-    public GrupoModel atualizar(@ApiParam("ID de um grupo") Long grupoId, GrupoInput grupoInput);
+    CozinhaModel atualizar(@ApiParam("ID de uma cozinha") Long cozinhaId, CozinhaInput cozinhaInput);
 
-    @ApiOperation("Exclui um grupo por id")
+    @ApiOperation("Exclui uma cozinha por id")
     @ApiResponses({@ApiResponse(responseCode = "204",
-            description = "Grupo excluído", content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = Problem.class))),
-            @ApiResponse(responseCode = "404",
-                    description = "Grupo não encontrado", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Problem.class))),
+            description = "Cozinha excluída", content = @Content(schema = @Schema(implementation = Problem.class))),
+            @ApiResponse(responseCode = "404", description = "Cozinha não encontrada",
+                    content = @Content(schema = @Schema(implementation = Problem.class))),
     })
-    public void excluir(@ApiParam(value = "ID de um grupo") Long grupoId);
-
+    void excluir(@ApiParam(value = "ID de uma cozinha") Long cozinhaId);
 
 }

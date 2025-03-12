@@ -17,21 +17,21 @@ import java.util.List;
 public interface CidadeControllerOpenApi {
 
     @ApiOperation("Lista as cidades")
-    public List<CidadeModel> listar();
+    List<CidadeModel> listar();
 
     @ApiOperation("Busca uma cidade por Id")
-    @ApiResponses({@io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400",
+    @ApiResponses({@ApiResponse(responseCode = "400",
             description = "ID da cidade inválido", content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = Problem.class))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404",
+            @ApiResponse(responseCode = "404",
                     description = "Cidade não encontrada", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Problem.class))),
     })
-    public CidadeModel buscar(@ApiParam("ID de uma cidade") Long cidadeId);
+    CidadeModel buscar(@ApiParam("ID de uma cidade") Long cidadeId);
 
     @ApiOperation("Cadastra uma cidade")
     @ApiResponses(@ApiResponse(responseCode = "201", description = "Cidade cadastrada"))
-    public CidadeModel salvar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade")CidadeInput cidadeInput);
+    CidadeModel salvar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade") CidadeInput cidadeInput);
 
     @ApiOperation("Atualiza uma cidade por id")
     @ApiResponses({@io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200",
@@ -41,7 +41,7 @@ public interface CidadeControllerOpenApi {
                     description = "Cidade não encontrada", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Problem.class))),
     })
-    public CidadeModel atualizar(@ApiParam("ID de uma cidade") Long cidadeId, CidadeInput cidadeInput);
+    CidadeModel atualizar(@ApiParam("ID de uma cidade") Long cidadeId, CidadeInput cidadeInput);
 
     @ApiOperation("Exclui uma cidade por id")
     @ApiResponses({@io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204",
@@ -51,7 +51,7 @@ public interface CidadeControllerOpenApi {
                     description = "Cidade não encontrada", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Problem.class))),
     })
-    public void excluir(@ApiParam("ID de uma cidade") Long cidadeId);
+    void excluir(@ApiParam("ID de uma cidade") Long cidadeId);
 
 
 }

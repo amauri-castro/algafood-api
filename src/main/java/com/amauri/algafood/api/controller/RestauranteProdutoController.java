@@ -4,6 +4,7 @@ import com.amauri.algafood.api.assembler.ProdutoInputDisassembler;
 import com.amauri.algafood.api.assembler.ProdutoModelAssembler;
 import com.amauri.algafood.api.model.ProdutoModel;
 import com.amauri.algafood.api.model.input.ProdutoInput;
+import com.amauri.algafood.api.openapi.controller.RestauranteProdutoControllerOpenApi;
 import com.amauri.algafood.domain.model.Produto;
 import com.amauri.algafood.domain.model.Restaurante;
 import com.amauri.algafood.domain.repository.ProdutoRepository;
@@ -11,14 +12,15 @@ import com.amauri.algafood.domain.service.CadastroProdutoService;
 import com.amauri.algafood.domain.service.CadastroRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/produtos")
-public class RestauranteProdutoController {
+@RequestMapping(value = "/restaurantes/{restauranteId}/produtos", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteProdutoController implements RestauranteProdutoControllerOpenApi {
 
     @Autowired
     private ProdutoRepository produtoRepository;

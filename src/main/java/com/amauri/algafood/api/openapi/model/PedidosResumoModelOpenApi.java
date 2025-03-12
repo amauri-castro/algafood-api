@@ -1,4 +1,8 @@
 package com.amauri.algafood.api.openapi.model;
 
-public class PedidosResumoModelOpenApi {
+import com.amauri.algafood.api.model.PedidoResumoModel;
+import io.swagger.annotations.ApiModel;
+
+@ApiModel("PedidosResumoModel")
+public class PedidosResumoModelOpenApi extends PagedModelOpenApi<PedidoResumoModel>{
 }

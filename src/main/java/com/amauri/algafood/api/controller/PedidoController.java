@@ -6,6 +6,7 @@ import com.amauri.algafood.api.assembler.PedidoResumoModelAssembler;
 import com.amauri.algafood.api.model.PedidoModel;
 import com.amauri.algafood.api.model.PedidoResumoModel;
 import com.amauri.algafood.api.model.input.PedidoInput;
+import com.amauri.algafood.api.openapi.controller.PedidoControllerOpenApi;
 import com.amauri.algafood.core.data.PageableTranslator;
 import com.amauri.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.amauri.algafood.domain.exception.NegocioException;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,8 +30,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/pedidos")
-public class PedidoController {
+@RequestMapping(value = "/pedidos", produces = MediaType.APPLICATION_JSON_VALUE)
+public class PedidoController implements PedidoControllerOpenApi {
 
     @Autowired
     private PedidoRepository pedidoRepository;
@@ -70,8 +72,8 @@ public class PedidoController {
 //    }
 
     @GetMapping
-    public Page<PedidoResumoModel> listar(PedidoFilter filtro,
-                                          @PageableDefault(size = 5) Pageable pageable) {
+    public Page<PedidoResumoModel> pesquisar(PedidoFilter filtro,
+                                             @PageableDefault(size = 5) Pageable pageable) {
         pageable = traduzirPageable(pageable);
 
         Page<Pedido> pagePedidos = pedidoRepository

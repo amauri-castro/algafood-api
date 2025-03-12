@@ -5,6 +5,7 @@ import com.amauri.algafood.api.assembler.RestauranteModelAssembler;
 import com.amauri.algafood.api.model.RestauranteModel;
 import com.amauri.algafood.api.model.input.RestauranteInput;
 import com.amauri.algafood.api.model.view.RestauranteView;
+import com.amauri.algafood.api.openapi.controller.RestauranteControllerOpenApi;
 import com.amauri.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.amauri.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.amauri.algafood.domain.exception.NegocioException;
@@ -15,15 +16,15 @@ import com.amauri.algafood.domain.service.CadastroRestauranteService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.json.MappingJacksonValue;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurantes")
-public class RestauranteController {
+@RequestMapping(value = "/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteController implements RestauranteControllerOpenApi {
 
     @Autowired
     private RestauranteRepository restauranteRepository;
@@ -42,6 +43,7 @@ public class RestauranteController {
     public List<RestauranteModel> listar() {
         return restauranteModelAssembler.toCollectionModel(restauranteRepository.findAll());
     }
+
 
     @JsonView(RestauranteView.ApenasNome.class)
     @GetMapping(params = "projecao=apenas-nome")
@@ -65,7 +67,7 @@ public class RestauranteController {
 //    }
 
     @GetMapping("/{restauranteId}")
-    public RestauranteModel buscar(@PathVariable Long restauranteId) {
+    public RestauranteModel buscar( @PathVariable Long restauranteId) {
         Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
         return restauranteModelAssembler.toModel(restaurante);
     }

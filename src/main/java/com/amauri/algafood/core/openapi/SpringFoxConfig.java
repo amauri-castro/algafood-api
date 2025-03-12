@@ -2,8 +2,10 @@ package com.amauri.algafood.core.openapi;
 
 import com.amauri.algafood.api.exceptionhandler.Problem;
 import com.amauri.algafood.api.model.CozinhaModel;
+import com.amauri.algafood.api.model.PedidoResumoModel;
 import com.amauri.algafood.api.openapi.model.CozinhasModelOpenApi;
 import com.amauri.algafood.api.openapi.model.PageableModelOpenApi;
+import com.amauri.algafood.api.openapi.model.PedidosResumoModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.context.request.ServletWebRequest;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.*;
 import springfox.documentation.schema.AlternateTypeRules;
@@ -49,14 +52,25 @@ public class SpringFoxConfig {
                 .globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
                 .additionalModels(typeResolver.resolve(Problem.class))
+                .ignoredParameterTypes(ServletWebRequest.class)
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(Page.class, CozinhaModel.class),
                         CozinhasModelOpenApi.class
                 ))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(Page.class, PedidoResumoModel.class),
+                        PedidosResumoModelOpenApi.class
+                ))
                 .apiInfo(apiInfo())
                 .tags(new Tag("Cidades", "Gerencia as cidades"),
-                        new Tag("Grupos", "Gerencia os grupos de usuários"));
+                        new Tag("Grupos", "Gerencia os grupos de usuários"),
+                        new Tag("Cozinhas", "Gerencia as cozinhas"),
+                        new Tag("Formas de pagamento", "Gerencia as formas de pagamento"),
+                        new Tag("Pedidos", "Gerencia os pedidos"),
+                        new Tag("Restaurantes", "Gerencia os restaurantes"),
+                        new Tag("Estados", "Gerencia os estados"),
+                        new Tag("Produtos", "Gerencia os produtos de restaurantes"));
 
     }
 
