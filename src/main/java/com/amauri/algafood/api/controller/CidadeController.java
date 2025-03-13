@@ -13,12 +13,16 @@ import com.amauri.algafood.domain.repository.CidadeRepository;
 import com.amauri.algafood.domain.repository.EstadoRepository;
 import com.amauri.algafood.domain.service.CadastroCidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
@@ -55,7 +59,20 @@ public class CidadeController implements CidadeControllerOpenApi {
     @GetMapping("/{cidadeId}")
     public CidadeModel buscar(@PathVariable Long cidadeId) {
         Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
-        return cidadeModelAssembler.toModel(cidade);
+
+        CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
+
+        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+                .slash(cidadeModel.getId())
+                .withSelfRel());
+
+        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+                .withRel("cidades"));
+
+        cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
+                .slash(cidadeModel.getEstado().getId())
+                .withSelfRel());
+        return cidadeModel;
     }
 
     @PostMapping
