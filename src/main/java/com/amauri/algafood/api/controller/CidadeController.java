@@ -13,22 +13,16 @@ import com.amauri.algafood.domain.repository.CidadeRepository;
 import com.amauri.algafood.domain.repository.EstadoRepository;
 import com.amauri.algafood.domain.service.CadastroCidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.http.HttpHeaders;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @RestController
@@ -51,8 +45,26 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 
     @GetMapping
-    public List<CidadeModel> listar() {
-        return cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
+    public CollectionModel<CidadeModel> listar() {
+        List<CidadeModel> todasCidades = cidadeModelAssembler.toCollectionModel(cidadeRepository.findAll());
+
+        todasCidades.forEach(cidade -> {
+            cidade.add(linkTo(methodOn(CidadeController.class)
+                    .buscar(cidade.getId()))
+                    .withSelfRel());
+
+            cidade.add(linkTo(methodOn(CidadeController.class)
+                    .listar())
+                    .withRel("cidades"));
+
+            cidade.getEstado().add(linkTo(methodOn(EstadoController.class)
+                    .buscar(cidade.getEstado().getId()))
+                    .withSelfRel());
+        });
+
+        CollectionModel<CidadeModel> cidadesCollectionModel = CollectionModel.of(todasCidades);
+        cidadesCollectionModel.add(linkTo(CidadeController.class).withSelfRel());
+        return cidadesCollectionModel;
     }
 
 
@@ -62,16 +74,26 @@ public class CidadeController implements CidadeControllerOpenApi {
 
         CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
 
-        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
-                .slash(cidadeModel.getId())
-                .withSelfRel());
 
-        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+        cidadeModel.add(linkTo(methodOn(CidadeController.class)
+                        .buscar(cidadeModel.getId()))
+                        .withSelfRel());
+
+        cidadeModel.add(linkTo(methodOn(CidadeController.class)
+                        .listar())
                 .withRel("cidades"));
 
-        cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
-                .slash(cidadeModel.getEstado().getId())
+        cidadeModel.getEstado().add(linkTo(methodOn(EstadoController.class)
+                .buscar(cidadeModel.getEstado().getId()))
                 .withSelfRel());
+//        cidadeModel.add(WebMvcLinkBuilder.linkTo(CidadeController.class)
+//                .withRel("cidades"));
+
+
+
+//        cidadeModel.getEstado().add(WebMvcLinkBuilder.linkTo(EstadoController.class)
+//                .slash(cidadeModel.getEstado().getId())
+//                .withSelfRel());
         return cidadeModel;
     }
 
