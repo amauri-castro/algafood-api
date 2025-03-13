@@ -6,11 +6,10 @@ import com.amauri.algafood.api.openapi.controller.RestauranteUsuarioResponsavelC
 import com.amauri.algafood.domain.model.Restaurante;
 import com.amauri.algafood.domain.service.CadastroRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/restaurantes/{restauranteId}/responsaveis", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -24,9 +23,8 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
     private UsuarioModelAssembler usuarioModelAssembler;
 
     @GetMapping
-    public List<UsuarioModel> listar(@PathVariable Long restauranteId) {
+    public CollectionModel<UsuarioModel> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
-
         return usuarioModelAssembler.toCollectionModel(restaurante.getResponsaveis());
     }
 

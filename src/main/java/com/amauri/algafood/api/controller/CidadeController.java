@@ -54,7 +54,6 @@ public class CidadeController implements CidadeControllerOpenApi {
     @GetMapping("/{cidadeId}")
     public CidadeModel buscar(@PathVariable Long cidadeId) {
         Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
-
         return cidadeModelAssembler.toModel(cidade);
     }
 

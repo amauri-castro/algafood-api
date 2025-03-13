@@ -10,9 +10,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -31,7 +28,7 @@ public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Ci
         CidadeModel cidadeModel = createModelWithId(cidade.getId(), cidade);
 
         //em vez de definir o destino como a classe é passado a instancia
-        // criada com o metodo acima que foi adicionado um id
+        // criada com o metodo acima
         modelMapper.map(cidade, cidadeModel);
 
         cidadeModel.add(linkTo(methodOn(CidadeController.class)
@@ -49,12 +46,5 @@ public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Ci
     public CollectionModel<CidadeModel> toCollectionModel(Iterable<? extends Cidade> entities) {
         return super.toCollectionModel(entities).add(linkTo(CidadeController.class).withSelfRel());
     }
-
-
-    //    public List<CidadeModel> toCollectionModel(List<Cidade> cidades) {
-//        return cidades.stream()
-//                .map(this::toModel)
-//                .collect(Collectors.toList());
-//    }
 
 }
