@@ -5,23 +5,25 @@ import com.amauri.algafood.api.model.PedidoModel;
 import com.amauri.algafood.api.model.PedidoResumoModel;
 import com.amauri.algafood.api.model.input.PedidoInput;
 import com.amauri.algafood.domain.filter.PedidoFilter;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 @Api(tags = "Pedidos")
 public interface PedidoControllerOpenApi {
 
 
     @ApiOperation("Pesquisa os pedidos")
-    Page<PedidoResumoModel> pesquisar(PedidoFilter filtro,
-                                      Pageable pageable);
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula",
+                    name = "campos", paramType = "query", type = "string")
+    })
+    PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro,
+                                            Pageable pageable);
 
     @ApiOperation("Busca um pedido por código")
     @ApiResponses({ @ApiResponse(responseCode = "404",
