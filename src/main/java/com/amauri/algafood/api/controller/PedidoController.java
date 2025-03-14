@@ -8,6 +8,7 @@ import com.amauri.algafood.api.model.PedidoModel;
 import com.amauri.algafood.api.model.PedidoResumoModel;
 import com.amauri.algafood.api.model.input.PedidoInput;
 import com.amauri.algafood.api.openapi.controller.PedidoControllerOpenApi;
+import com.amauri.algafood.core.data.PageWrapper;
 import com.amauri.algafood.core.data.PageableTranslator;
 import com.amauri.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.amauri.algafood.domain.exception.NegocioException;
@@ -81,10 +82,12 @@ public class PedidoController implements PedidoControllerOpenApi {
     @GetMapping
     public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro,
                                                    @PageableDefault(size = 5) Pageable pageable) {
-        pageable = traduzirPageable(pageable);
+        Pageable pageableTraduzido = traduzirPageable(pageable);
 
         Page<Pedido> pagePedidos = pedidoRepository
-                .findAll(PedidoSpecs.usandoFiltro(filtro), pageable);
+                .findAll(PedidoSpecs.usandoFiltro(filtro), pageableTraduzido);
+
+        pagePedidos = new PageWrapper<>(pagePedidos, pageable);
 
         return pagedResourcesAssembler
                 .toModel(pagePedidos, pedidoResumoModelAssembler);
@@ -117,7 +120,11 @@ public class PedidoController implements PedidoControllerOpenApi {
         var mapeamento = Map.of(
                 "codigo", "codigo",
                 "subtotal", "subtotal",
-                "resturante.nome", "restaurante.nome",
+                "taxaFrete", "taxaFrete",
+                "dataCriacao", "dataCriacao",
+                "nomeRestaurante", "restaurante.nome",
+                "restaurante.id", "restaurante.id",
+                "cliente.id", "cliente.id",
                 "cliente.nome", "cliente.nome",
                 "valorTotal", "valorTotal"
         );
