@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 @Api(tags = "Restaurantes")
 public interface RestauranteFormaPagamentoControllerOpenApi {
@@ -31,8 +32,8 @@ public interface RestauranteFormaPagamentoControllerOpenApi {
             description = "Restaurante ou forma de pagamento não encontrado",
             content = @Content(schema = @Schema(implementation = Problem.class))),
     })
-    void desvincular(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId,
-                     @ApiParam(value = "ID da forma de pagamento", example = "1", required = true) Long formaPagamentoId);
+    ResponseEntity<Void> desvincular(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId,
+                               @ApiParam(value = "ID da forma de pagamento", example = "1", required = true) Long formaPagamentoId);
 
 
     @ApiOperation("Associação de restaurante com forma de pagamento")
