@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,21 +30,32 @@ public class RestauranteUsuarioResponsavelController implements RestauranteUsuar
     @GetMapping
     public CollectionModel<UsuarioModel> listar(@PathVariable Long restauranteId) {
         Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
-        return usuarioModelAssembler.toCollectionModel(restaurante.getResponsaveis())
+        CollectionModel<UsuarioModel> usuariosModel = usuarioModelAssembler.toCollectionModel(restaurante.getResponsaveis())
                 .removeLinks()
-                .add(algaLinks.linkToResponsaveisRestaurante(restauranteId));
+                .add(algaLinks.linkToResponsaveisRestaurante(restauranteId))
+                .add(algaLinks.linkToRestauranteResponsavelAssociacao(restauranteId, "associar"));
+
+        usuariosModel.getContent().forEach(usuarioModel -> {
+            usuarioModel.add(algaLinks.linkToRestauranteResponsavelDesassociacao(
+                    restauranteId, usuarioModel.getId(), "desassociar"
+            ));
+        });
+
+        return usuariosModel;
     }
 
     @DeleteMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void desvincular(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {
+    public ResponseEntity<Void> desvincular(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {
         cadastroRestauranteService.desvincularResponsavel(restauranteId, usuarioId);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void vincular(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {
+    public ResponseEntity<Void> vincular(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {
         cadastroRestauranteService.vincularResponsavel(restauranteId, usuarioId);
+        return ResponseEntity.noContent().build();
     }
 
 
