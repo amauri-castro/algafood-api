@@ -44,7 +44,7 @@ public interface RestauranteFormaPagamentoControllerOpenApi {
                     description = "Restaurante ou forma de pagamento não encontrado",
                     content = @Content(schema = @Schema(implementation = Problem.class))),
     })
-    void vincular(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId,
+    ResponseEntity<Void> vincular(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId,
                   @ApiParam(value = "ID da forma de pagamento", example = "1", required = true)Long formaPagamentoId);
 
 
