@@ -26,7 +26,7 @@ public interface RestauranteProdutoControllerOpenApi {
     })
     public List<ProdutoModel> listar(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restauranteId,
                                      @ApiParam(value = "Indica se deve ou não incluir produtos inativos no resultado da listagem",
-                                             example = "false", defaultValue = "false") boolean incluirInativos);
+                                             example = "false", defaultValue = "false") Boolean incluirInativos);
 
 
     @ApiOperation("Busca um produto de um restaurante")
