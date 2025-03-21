@@ -1,29 +1,36 @@
 package com.amauri.algafood.api.assembler;
 
+import com.amauri.algafood.api.AlgaLinks;
+import com.amauri.algafood.api.controller.RestauranteProdutoController;
 import com.amauri.algafood.api.model.ProdutoModel;
 import com.amauri.algafood.domain.model.Produto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
-public class ProdutoModelAssembler {
+public class ProdutoModelAssembler extends RepresentationModelAssemblerSupport<Produto, ProdutoModel> {
 
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AlgaLinks algaLinks;
+
+    public ProdutoModelAssembler() {
+        super(RestauranteProdutoController.class, ProdutoModel.class);
+    }
+
+    @Override
     public ProdutoModel toModel(Produto produto) {
-        return modelMapper.map(produto, ProdutoModel.class);
-    }
+        ProdutoModel produtoModel = createModelWithId(
+                produto.getId(), produto, produto.getRestaurante().getId());
+        modelMapper.map(produto, produtoModel);
 
-    public List<ProdutoModel> toCollectionModel(Collection<Produto> produtos) {
-        return produtos.stream()
-                .map(this::toModel)
-                .collect(Collectors.toList());
-    }
+        produtoModel.add(algaLinks.linkToProdutos(produto.getRestaurante().getId(), "produtos"));
 
+        return produtoModel;
+    }
 }

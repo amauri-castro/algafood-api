@@ -37,12 +37,6 @@ public class RestauranteModelAssembler extends RepresentationModelAssemblerSuppo
                 .getCidade().
                 add(algaLinks.linkToCidade(restaurante.getEndereco().getCidade().getId()));
 
-        restauranteModel.add(algaLinks.linkToRestauranteFormasPagamento(restaurante.getId(),
-                "formas-pagamento"));
-
-        restauranteModel.add(algaLinks.linkToResponsaveisRestaurante(restaurante.getId(),
-                "responsaveis"));
-
         if (restaurante.ativacaoPermitida()) {
             restauranteModel.add(
                     algaLinks.linkToRestauranteAtivacao(restaurante.getId(), "ativar"));
@@ -63,12 +57,20 @@ public class RestauranteModelAssembler extends RepresentationModelAssemblerSuppo
                     algaLinks.linkToRestauranteFechamento(restaurante.getId(), "fechar"));
         }
 
-        return restauranteModel;
-    }
+        restauranteModel.add(algaLinks.linkToProdutos(restaurante.getId(), "produtos"));
 
-    @Override
-    public CollectionModel<RestauranteModel> toCollectionModel(Iterable<? extends Restaurante> entities) {
-        return super.toCollectionModel(entities)
-                .add(algaLinks.linkToRestaurantes());
+        if (restauranteModel.getEndereco() != null
+                && restauranteModel.getEndereco().getCidade() != null) {
+            restauranteModel.getEndereco().getCidade().add(
+                    algaLinks.linkToCidade(restaurante.getEndereco().getCidade().getId()));
+        }
+
+        restauranteModel.add(algaLinks.linkToRestauranteFormasPagamento(restaurante.getId(),
+                "formas-pagamento"));
+
+        restauranteModel.add(algaLinks.linkToResponsaveisRestaurante(restaurante.getId(),
+                "responsaveis"));
+
+        return restauranteModel;
     }
 }
