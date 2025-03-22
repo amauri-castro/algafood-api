@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 @Api(tags = "Grupos")
 public interface GrupoPermissaoControllerOpenApi {
@@ -24,7 +24,7 @@ public interface GrupoPermissaoControllerOpenApi {
                     description = "Grupo não encontrado", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Problem.class))),
     })
-    List<PermissaoModel> listar(Long grupoId);
+    CollectionModel<PermissaoModel> listar(Long grupoId);
 
 
     @ApiOperation("Desassociação de permissão com grupo")
@@ -35,9 +35,9 @@ public interface GrupoPermissaoControllerOpenApi {
                     description = "Grupo ou permissão não encontrada",
                     content = @Content(schema = @Schema(implementation = Problem.class))),
     })
-    void desvincular(@ApiParam(value = "ID do grupo", example = "1", required = true)
+    ResponseEntity<Void> desassociar(@ApiParam(value = "ID do grupo", example = "1", required = true)
                      Long grupoId,
-                     @ApiParam(value = "ID da permissão", example = "1", required = true)
+                                     @ApiParam(value = "ID da permissão", example = "1", required = true)
                      Long permissaoId);
 
 
@@ -49,8 +49,8 @@ public interface GrupoPermissaoControllerOpenApi {
                     description = "Grupo ou permissão não encontrada",
                     content = @Content(schema = @Schema(implementation = Problem.class))),
     })
-    void vincular(@ApiParam(value = "ID do grupo", example = "1", required = true)
+    ResponseEntity<Void> associar(@ApiParam(value = "ID do grupo", example = "1", required = true)
                   Long grupoId,
-                  @ApiParam(value = "ID da permissão", example = "1", required = true)
+                                  @ApiParam(value = "ID da permissão", example = "1", required = true)
                   Long permissaoId);
 }
