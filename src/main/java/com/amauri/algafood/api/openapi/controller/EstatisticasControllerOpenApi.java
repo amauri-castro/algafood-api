@@ -1,5 +1,6 @@
 package com.amauri.algafood.api.openapi.controller;
 
+import com.amauri.algafood.api.controller.EstatisticasController;
 import com.amauri.algafood.domain.filter.VendaDiariaFilter;
 import com.amauri.algafood.domain.model.dto.VendaDiaria;
 import io.swagger.annotations.*;
@@ -9,6 +10,9 @@ import java.util.List;
 
 @Api(tags = "Estatísticas")
 public interface EstatisticasControllerOpenApi {
+
+    @ApiOperation(value = "Estatísticas", hidden = true)
+    EstatisticasController.EstatisticasModel estatisticas();
 
     @ApiOperation("Consulta estatísticas de vendas diárias")
     @ApiImplicitParams({
