@@ -2,19 +2,19 @@ package com.amauri.algafood.api.controller;
 
 import com.amauri.algafood.api.assembler.GrupoInputDisassembler;
 import com.amauri.algafood.api.assembler.GrupoModelAssembler;
-import com.amauri.algafood.api.openapi.controller.GrupoControllerOpenApi;
 import com.amauri.algafood.api.model.GrupoModel;
 import com.amauri.algafood.api.model.input.GrupoInput;
+import com.amauri.algafood.api.openapi.controller.GrupoControllerOpenApi;
 import com.amauri.algafood.domain.model.Grupo;
 import com.amauri.algafood.domain.repository.GrupoRepository;
 import com.amauri.algafood.domain.service.CadastroGrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/grupos", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -32,8 +32,9 @@ public class GrupoController implements GrupoControllerOpenApi {
     private GrupoModelAssembler grupoModelAssembler;
 
 
+    @Override
     @GetMapping
-    public List<GrupoModel> listar() {
+    public CollectionModel<GrupoModel> listar() {
         return grupoModelAssembler.toCollectionModel(grupoRepository.findAll());
     }
 
