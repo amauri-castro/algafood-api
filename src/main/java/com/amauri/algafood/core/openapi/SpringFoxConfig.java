@@ -1,8 +1,8 @@
 package com.amauri.algafood.core.openapi;
 
 import com.amauri.algafood.api.exceptionhandler.Problem;
-import com.amauri.algafood.api.model.*;
-import com.amauri.algafood.api.openapi.model.*;
+import com.amauri.algafood.api.v1.model.*;
+import com.amauri.algafood.api.v1.openapi.model.*;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;

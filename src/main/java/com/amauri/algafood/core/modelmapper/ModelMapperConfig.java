@@ -1,7 +1,7 @@
 package com.amauri.algafood.core.modelmapper;
 
-import com.amauri.algafood.api.model.EnderecoModel;
-import com.amauri.algafood.api.model.input.ItemPedidoInput;
+import com.amauri.algafood.api.v1.model.EnderecoModel;
+import com.amauri.algafood.api.v1.model.input.ItemPedidoInput;
 import com.amauri.algafood.domain.model.Endereco;
 import com.amauri.algafood.domain.model.ItemPedido;
 import org.modelmapper.ModelMapper;
