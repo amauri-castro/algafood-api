@@ -44,12 +44,12 @@ public class SpringFoxConfig {
     TypeResolver typeResolver = new TypeResolver();
 
     @Bean
-    public Docket apiDocket() {
+    public Docket apiDocketV1() {
         return new Docket(DocumentationType.OAS_30)
+                .groupName("V1")
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("com.amauri.algafood.api"))
-                    .paths(PathSelectors.any())
-//                    .paths(PathSelectors.ant("/restaurantes/*"))
+                    .paths(PathSelectors.ant("/v1/**"))
                     .build()
                 .useDefaultResponseMessages(false)
                 .globalResponses(HttpMethod.GET, globalGetResponseMessages())
@@ -102,7 +102,7 @@ public class SpringFoxConfig {
                         typeResolver.resolve(CollectionModel.class, UsuarioModel.class),
                         UsuariosModelOpenApi.class
                 ))
-                .apiInfo(apiInfo())
+                .apiInfo(apiInfoV1())
                 .tags(new Tag("Cidades", "Gerencia as cidades"),
                         new Tag("Grupos", "Gerencia os grupos de usuários"),
                         new Tag("Cozinhas", "Gerencia as cozinhas"),
@@ -114,6 +114,31 @@ public class SpringFoxConfig {
                         new Tag("Usuários", "Gerencia os usuários"),
                         new Tag("Estatísticas", "Estatísticas da AlgaFood"),
                         new Tag("Permissões", "Gerencia as permissões"));
+
+    }
+
+    @Bean
+    public Docket apiDocketV2() {
+        return new Docket(DocumentationType.OAS_30)
+                .groupName("V2")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.amauri.algafood.api"))
+                .paths(PathSelectors.ant("/v2/**"))
+                .build()
+                .useDefaultResponseMessages(false)
+                .globalResponses(HttpMethod.GET, globalGetResponseMessages())
+                .globalResponses(HttpMethod.POST, globalPostPutResponseMessages())
+                .globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
+                .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
+                .additionalModels(typeResolver.resolve(Problem.class))
+                .ignoredParameterTypes(ServletWebRequest.class,
+                        URL.class, URI.class, URLStreamHandler.class, Resource.class,
+                        File.class, InputStream.class)
+                .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+                .directModelSubstitute(Links.class, LinksModelOpenApi.class)
+                .apiInfo(apiInfoV2())
+                .tags(new Tag("Cidades", "Gerencia as cidades"),
+                        new Tag("Cozinhas", "Gerencia as cozinhas"));
 
     }
 
@@ -187,11 +212,20 @@ public class SpringFoxConfig {
     }
 
 
-    private ApiInfo apiInfo() {
+    private ApiInfo apiInfoV1() {
         return new ApiInfoBuilder()
                 .title("AlgaFood API")
                 .description("API aberta para clientes e restaurantes")
                 .version("1.0.0")
+                .contact(new Contact("Amauri Dev", "https://www.amauri-dev.com.br", "amauri.p.castro@gmail.com"))
+                .build();
+    }
+
+    private ApiInfo apiInfoV2() {
+        return new ApiInfoBuilder()
+                .title("AlgaFood API")
+                .description("API aberta para clientes e restaurantes")
+                .version("2.0.0")
                 .contact(new Contact("Amauri Dev", "https://www.amauri-dev.com.br", "amauri.p.castro@gmail.com"))
                 .build();
     }
