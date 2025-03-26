@@ -16,7 +16,7 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
-    private ApiDeprecationHandler apiDeprecationHandler;
+    private ApiRetirementHandler apiDeprecationHandler;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
