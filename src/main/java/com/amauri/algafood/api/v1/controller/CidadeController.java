@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 
+@Deprecated
 @RestController
 @RequestMapping(path = "/v1/cidades")
 public class CidadeController implements CidadeControllerOpenApi {
@@ -41,6 +42,7 @@ public class CidadeController implements CidadeControllerOpenApi {
     private CidadeModelAssembler cidadeModelAssembler;
 
 
+    @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public CollectionModel<CidadeModel> listar() {
         List<Cidade> todasCidades = cidadeRepository.findAll();
