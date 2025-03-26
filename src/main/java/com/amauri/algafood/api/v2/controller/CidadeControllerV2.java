@@ -5,6 +5,7 @@ import com.amauri.algafood.api.v2.assembler.CidadeInputDisassemblerV2;
 import com.amauri.algafood.api.v2.assembler.CidadeModelAssemblerV2;
 import com.amauri.algafood.api.v2.model.CidadeModelV2;
 import com.amauri.algafood.api.v2.model.input.CidadeInputV2;
+import com.amauri.algafood.api.v2.openapi.controller.CidadeControllerV2OpenApi;
 import com.amauri.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.amauri.algafood.domain.exception.NegocioException;
 import com.amauri.algafood.domain.model.Cidade;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/v2/cidades")
-public class CidadeControllerV2 {
+public class CidadeControllerV2 implements CidadeControllerV2OpenApi {
 
     @Autowired
     private CidadeRepository cidadeRepository;
@@ -80,10 +81,10 @@ public class CidadeControllerV2 {
     }
 
 
-//    @DeleteMapping("/{cidadeId}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void excluir(@PathVariable Long cidadeId) {
-//        cadastroCidade.excluir(cidadeId);
-//    }
+    @DeleteMapping("/{cidadeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void excluir(@PathVariable Long cidadeId) {
+        cadastroCidade.excluir(cidadeId);
+    }
 
 }

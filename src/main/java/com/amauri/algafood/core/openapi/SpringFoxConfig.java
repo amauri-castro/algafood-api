@@ -3,6 +3,10 @@ package com.amauri.algafood.core.openapi;
 import com.amauri.algafood.api.exceptionhandler.Problem;
 import com.amauri.algafood.api.v1.model.*;
 import com.amauri.algafood.api.v1.openapi.model.*;
+import com.amauri.algafood.api.v2.model.CidadeModelV2;
+import com.amauri.algafood.api.v2.model.CozinhaModelV2;
+import com.amauri.algafood.api.v2.openapi.model.CidadesModelV2OpenApi;
+import com.amauri.algafood.api.v2.openapi.model.CozinhasModelV2OpenApi;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
@@ -41,10 +45,11 @@ import java.util.function.Consumer;
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SpringFoxConfig {
 
-    TypeResolver typeResolver = new TypeResolver();
+
 
     @Bean
     public Docket apiDocketV1() {
+        TypeResolver typeResolver = new TypeResolver();
         return new Docket(DocumentationType.OAS_30)
                 .groupName("V1")
                 .select()
@@ -119,6 +124,7 @@ public class SpringFoxConfig {
 
     @Bean
     public Docket apiDocketV2() {
+        TypeResolver typeResolver = new TypeResolver();
         return new Docket(DocumentationType.OAS_30)
                 .groupName("V2")
                 .select()
@@ -136,6 +142,14 @@ public class SpringFoxConfig {
                         File.class, InputStream.class)
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
                 .directModelSubstitute(Links.class, LinksModelOpenApi.class)
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, CidadeModelV2.class),
+                        CidadesModelV2OpenApi.class
+                ))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(CollectionModel.class, CozinhaModelV2.class),
+                        CozinhasModelV2OpenApi.class
+                ))
                 .apiInfo(apiInfoV2())
                 .tags(new Tag("Cidades", "Gerencia as cidades"),
                         new Tag("Cozinhas", "Gerencia as cozinhas"));
