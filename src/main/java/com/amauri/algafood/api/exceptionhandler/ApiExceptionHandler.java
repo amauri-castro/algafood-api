@@ -7,6 +7,7 @@ import com.amauri.algafood.domain.exception.NegocioException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -41,6 +43,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Autowired
     private MessageSource messageSource;
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleUnchaught(Exception ex, WebRequest request) {
+
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        ProblemType problemType = ProblemType.ERRO_SISTEMA;
+        String detail = MSG_ERRO_GENERICA_USUARIO_FINAL;
+        log.error(ex.getMessage(), ex);
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+                .build();
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
 
 
     @Override
@@ -58,19 +73,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus status = HttpStatus.PAYLOAD_TOO_LARGE;
         ProblemType problemType = ProblemType.ERRO_MAX_FILE_EXCEEDED;
         String detail = "O tamanho do arquivo excedou o máximo permitido";
-        Problem problem = createProblemBuilder(status, problemType, detail)
-                .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
-                .build();
-        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleUnchaught(Exception ex, WebRequest request) {
-
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        ProblemType problemType = ProblemType.ERRO_SISTEMA;
-        String detail = MSG_ERRO_GENERICA_USUARIO_FINAL;
-        ex.printStackTrace();
         Problem problem = createProblemBuilder(status, problemType, detail)
                 .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
                 .build();
