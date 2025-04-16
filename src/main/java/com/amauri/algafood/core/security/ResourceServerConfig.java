@@ -1,14 +1,16 @@
 package com.amauri.algafood.core.security;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -42,9 +44,14 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
                 authorities = Collections.emptyList();
             }
 
-            return authorities.stream()
+            var scopesAuthorityConverter = new JwtGrantedAuthoritiesConverter();
+            Collection<GrantedAuthority> grantedAuthorities = scopesAuthorityConverter.convert(jwt);
+
+            grantedAuthorities.addAll(authorities.stream()
                     .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList());
+                    .toList());
+
+            return grantedAuthorities;
         });
 
         return jwtAuthenticationConverter;
