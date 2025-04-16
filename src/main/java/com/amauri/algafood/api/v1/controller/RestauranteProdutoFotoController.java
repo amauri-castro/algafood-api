@@ -4,6 +4,7 @@ import com.amauri.algafood.api.v1.assembler.FotoProdutoModelAssembler;
 import com.amauri.algafood.api.v1.model.FotoProdutoModel;
 import com.amauri.algafood.api.v1.model.input.FotoProdutoInput;
 import com.amauri.algafood.api.v1.openapi.controller.RestauranteProdutoFotoControllerOpenApi;
+import com.amauri.algafood.core.security.CheckSecurity;
 import com.amauri.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.amauri.algafood.domain.model.FotoProduto;
 import com.amauri.algafood.domain.model.Produto;
@@ -43,6 +44,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
     private FotoStorageService fotoStorageService;
 
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @Override
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public FotoProdutoModel atualizarFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId,
@@ -66,6 +68,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @GetMapping
     public FotoProdutoModel buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
         FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);
@@ -106,6 +109,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
     public void excluirFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId) {

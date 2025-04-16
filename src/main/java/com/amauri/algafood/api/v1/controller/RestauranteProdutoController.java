@@ -6,6 +6,7 @@ import com.amauri.algafood.api.v1.assembler.ProdutoModelAssembler;
 import com.amauri.algafood.api.v1.model.ProdutoModel;
 import com.amauri.algafood.api.v1.model.input.ProdutoInput;
 import com.amauri.algafood.api.v1.openapi.controller.RestauranteProdutoControllerOpenApi;
+import com.amauri.algafood.core.security.CheckSecurity;
 import com.amauri.algafood.domain.model.Produto;
 import com.amauri.algafood.domain.model.Restaurante;
 import com.amauri.algafood.domain.repository.ProdutoRepository;
@@ -42,6 +43,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
     @Autowired
     private AlgaLinks algaLinks;
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @GetMapping
     public CollectionModel<ProdutoModel> listar(@PathVariable Long restauranteId,
                                                 @RequestParam(required = false, defaultValue = "false") Boolean incluirInativos) {
@@ -59,12 +61,14 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
 
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @GetMapping("/{produtoId}")
     public ProdutoModel buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
         cadastroRestauranteService.buscarOuFalhar(restauranteId);
         return produtoModelAssembler.toModel(cadastroProdutoService.buscarOuFalhar(restauranteId, produtoId));
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProdutoModel salvar(@PathVariable Long restauranteId, @RequestBody @Valid ProdutoInput produtoInput) {
@@ -76,6 +80,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
         return produtoModelAssembler.toModel(produto);
     }
 
+    @CheckSecurity.Restaurantes.PodeEditar
     @PutMapping("/{produtoId}")
     public ProdutoModel atualizar(@PathVariable Long restauranteId, @PathVariable Long produtoId, @RequestBody @Valid ProdutoInput produtoInput) {
         cadastroRestauranteService.buscarOuFalhar(restauranteId);
