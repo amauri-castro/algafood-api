@@ -10,6 +10,7 @@ import com.amauri.algafood.api.v1.openapi.controller.PedidoControllerOpenApi;
 import com.amauri.algafood.core.data.PageWrapper;
 import com.amauri.algafood.core.data.PageableTranslator;
 import com.amauri.algafood.core.security.AlgaSecurity;
+import com.amauri.algafood.core.security.CheckSecurity;
 import com.amauri.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.amauri.algafood.domain.exception.NegocioException;
 import com.amauri.algafood.domain.filter.PedidoFilter;
@@ -93,6 +94,8 @@ public class PedidoController implements PedidoControllerOpenApi {
                 .toModel(pagePedidos, pedidoResumoModelAssembler);
     }
 
+    @CheckSecurity.Pedidos.PodeBuscar
+    @Override
     @GetMapping("/{codigoPedido}")
     public PedidoModel buscar(@PathVariable String codigoPedido) {
         Pedido pedido = emissaoPedidoService.buscarOuFalhar(codigoPedido);
