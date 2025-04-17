@@ -1,5 +1,6 @@
 package com.amauri.algafood.core.security;
 
+import com.amauri.algafood.domain.repository.PedidoRepository;
 import com.amauri.algafood.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,9 @@ public class AlgaSecurity {
     @Autowired
     private RestauranteRepository restauranteRepository;
 
+    @Autowired
+    private PedidoRepository pedidoRepository;
+
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
@@ -25,6 +29,9 @@ public class AlgaSecurity {
     }
 
     public boolean gerenciaRestaurante(Long restauranteId) {
+        if (restauranteId == null) {
+            return false;
+        }
         return restauranteRepository.existsResponsavel(restauranteId, getUsuarioId());
     }
 
@@ -33,6 +40,6 @@ public class AlgaSecurity {
     }
 
     public boolean gerenciaRestaurateDoPedido(String codigoPedido) {
-        return true;
+        return pedidoRepository.isPedidoGerenciadoPor(codigoPedido, getUsuarioId());
     }
 }

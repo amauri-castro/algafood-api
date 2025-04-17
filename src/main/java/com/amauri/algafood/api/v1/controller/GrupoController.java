@@ -5,6 +5,7 @@ import com.amauri.algafood.api.v1.assembler.GrupoModelAssembler;
 import com.amauri.algafood.api.v1.model.GrupoModel;
 import com.amauri.algafood.api.v1.model.input.GrupoInput;
 import com.amauri.algafood.api.v1.openapi.controller.GrupoControllerOpenApi;
+import com.amauri.algafood.core.security.CheckSecurity;
 import com.amauri.algafood.domain.model.Grupo;
 import com.amauri.algafood.domain.repository.GrupoRepository;
 import com.amauri.algafood.domain.service.CadastroGrupoService;
@@ -32,18 +33,21 @@ public class GrupoController implements GrupoControllerOpenApi {
     private GrupoModelAssembler grupoModelAssembler;
 
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @Override
     @GetMapping
     public CollectionModel<GrupoModel> listar() {
         return grupoModelAssembler.toCollectionModel(grupoRepository.findAll());
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @GetMapping("/{grupoId}")
     public GrupoModel buscar(@PathVariable Long grupoId) {
         Grupo grupo = cadastroGrupoService.buscarOuFalhar(grupoId);
         return grupoModelAssembler.toModel(grupo);
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public GrupoModel salvar(@RequestBody @Valid GrupoInput grupoInput) {
@@ -51,6 +55,7 @@ public class GrupoController implements GrupoControllerOpenApi {
         return grupoModelAssembler.toModel(cadastroGrupoService.salvar(grupo));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @PutMapping("/{grupoId}")
     public GrupoModel atualizar(@PathVariable Long grupoId, @RequestBody @Valid GrupoInput grupoInput) {
         Grupo grupoAtual = cadastroGrupoService.buscarOuFalhar(grupoId);
@@ -58,6 +63,7 @@ public class GrupoController implements GrupoControllerOpenApi {
         return grupoModelAssembler.toModel(cadastroGrupoService.salvar(grupoAtual));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long grupoId) {

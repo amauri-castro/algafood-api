@@ -7,6 +7,7 @@ import com.amauri.algafood.api.v1.model.input.SenhaInput;
 import com.amauri.algafood.api.v1.model.input.UsuarioComSenhaInput;
 import com.amauri.algafood.api.v1.model.input.UsuarioInput;
 import com.amauri.algafood.api.v1.openapi.controller.UsuarioControllerOpenApi;
+import com.amauri.algafood.core.security.CheckSecurity;
 import com.amauri.algafood.domain.model.Usuario;
 import com.amauri.algafood.domain.repository.UsuarioRepository;
 import com.amauri.algafood.domain.service.CadastroUsuarioService;
@@ -34,17 +35,20 @@ public class UsuarioController implements UsuarioControllerOpenApi {
     private UsuarioModelAssembler usuarioModelAssembler;
 
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @GetMapping
     public CollectionModel<UsuarioModel> listar() {
         return usuarioModelAssembler.toCollectionModel(usuarioRepository.findAll());
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @GetMapping("/{usuarioId}")
     public UsuarioModel buscar(@PathVariable Long usuarioId) {
         Usuario usuario = cadastroUsuarioService.buscarOuFalhar(usuarioId);
         return usuarioModelAssembler.toModel(usuario);
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioModel salvar(@RequestBody @Valid UsuarioComSenhaInput usuarioComSenhaInput) {
@@ -52,6 +56,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         return usuarioModelAssembler.toModel(cadastroUsuarioService.salvar(usuario));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeAlterarUsuario
     @PutMapping("/{usuarioId}")
     public UsuarioModel atualizar(@PathVariable Long usuarioId, @RequestBody @Valid UsuarioInput usuarioInput) {
         Usuario usuarioAtual = cadastroUsuarioService.buscarOuFalhar(usuarioId);
@@ -59,6 +64,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         return usuarioModelAssembler.toModel(cadastroUsuarioService.salvar(usuarioAtual));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeAlterarPropriaSenha
     @PutMapping("/{usuarioId}/senha")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void alterarSenha(@PathVariable Long usuarioId, @RequestBody @Valid SenhaInput senhaInput) {
