@@ -1,22 +1,37 @@
 services:
   mysql:
     image: mysql:8.0.32
-    container_name: mysql8-container
+    container_name: algafood-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 1234        # Senha do usuário root
-      MYSQL_DATABASE: algafood                 # Nome do banco de dados a ser criado
-      MYSQL_USER: amauri                   # Nome do usuário
-      MYSQL_PASSWORD: 1234            # Senha do usuário
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: algafood
+      TZ: America/Sao_Paulo
+      LANG: C.UTF-8
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
       - "3306:3306"
     volumes:
-      - mysql-data:/var/lib/mysql                # Persistência dos dados
+      - mysql-data:/var/lib/mysql
     networks:
-      - mysql-network
-
+      - network
+    healthcheck:
+      test: [ "CMD", "mysql", "-uroot", "-p1234", "-e", "SHOW DATABASES;" ]
+      interval: 20s
+      timeout: 10s
+      retries: 6
+      start_period: 60s
+  algafood-api:
+    image: amauricastro/algafood-api
+    environment:
+      DB_HOST: algafood-mysql
+    networks:
+      - network
+    depends_on:
+      mysql:
+        condition: service_healthy
 volumes:
   mysql-data:
 
 networks:
-  mysql-network:
+  network:
     driver: bridge
