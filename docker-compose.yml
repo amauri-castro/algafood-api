@@ -28,6 +28,8 @@ services:
     image: amauricastro/algafood-api
     environment:
       DB_HOST: algafood-mysql
+      SPRING_SESSION_STORE_TYPE: redis
+      SPRING_REDIS_HOST: algafood-redis
     networks:
       - network
     depends_on:
