@@ -24,7 +24,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 
-@Deprecated
 @RestController
 @RequestMapping(path = "/v1/cidades")
 public class CidadeController implements CidadeControllerOpenApi {
