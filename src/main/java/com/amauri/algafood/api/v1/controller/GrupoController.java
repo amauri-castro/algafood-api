@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -41,6 +42,7 @@ public class GrupoController implements GrupoControllerOpenApi {
     }
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
+    @Override
     @GetMapping("/{grupoId}")
     public GrupoModel buscar(@PathVariable Long grupoId) {
         Grupo grupo = cadastroGrupoService.buscarOuFalhar(grupoId);
@@ -48,6 +50,7 @@ public class GrupoController implements GrupoControllerOpenApi {
     }
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public GrupoModel salvar(@RequestBody @Valid GrupoInput grupoInput) {
@@ -56,6 +59,7 @@ public class GrupoController implements GrupoControllerOpenApi {
     }
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+    @Override
     @PutMapping("/{grupoId}")
     public GrupoModel atualizar(@PathVariable Long grupoId, @RequestBody @Valid GrupoInput grupoInput) {
         Grupo grupoAtual = cadastroGrupoService.buscarOuFalhar(grupoId);
@@ -64,9 +68,11 @@ public class GrupoController implements GrupoControllerOpenApi {
     }
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+    @Override
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluir(@PathVariable Long grupoId) {
+    public ResponseEntity<Void> excluir(@PathVariable Long grupoId) {
         cadastroGrupoService.excluir(grupoId);
+        return ResponseEntity.noContent().build();
     }
 }

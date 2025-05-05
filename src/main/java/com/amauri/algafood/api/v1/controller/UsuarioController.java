@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,12 +37,14 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
+    @Override
     @GetMapping
     public CollectionModel<UsuarioModel> listar() {
         return usuarioModelAssembler.toCollectionModel(usuarioRepository.findAll());
     }
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
+    @Override
     @GetMapping("/{usuarioId}")
     public UsuarioModel buscar(@PathVariable Long usuarioId) {
         Usuario usuario = cadastroUsuarioService.buscarOuFalhar(usuarioId);
@@ -49,6 +52,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
     }
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioModel salvar(@RequestBody @Valid UsuarioComSenhaInput usuarioComSenhaInput) {
@@ -57,6 +61,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
     }
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeAlterarUsuario
+    @Override
     @PutMapping("/{usuarioId}")
     public UsuarioModel atualizar(@PathVariable Long usuarioId, @RequestBody @Valid UsuarioInput usuarioInput) {
         Usuario usuarioAtual = cadastroUsuarioService.buscarOuFalhar(usuarioId);
@@ -65,10 +70,12 @@ public class UsuarioController implements UsuarioControllerOpenApi {
     }
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeAlterarPropriaSenha
+    @Override
     @PutMapping("/{usuarioId}/senha")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void alterarSenha(@PathVariable Long usuarioId, @RequestBody @Valid SenhaInput senhaInput) {
+    public ResponseEntity<Void> alterarSenha(@PathVariable Long usuarioId, @RequestBody @Valid SenhaInput senhaInput) {
         cadastroUsuarioService.alterarSenha(usuarioId, senhaInput.getSenhaAtual(), senhaInput.getNovaSenha());
+        return ResponseEntity.noContent().build();
     }
 
 }

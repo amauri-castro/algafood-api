@@ -80,6 +80,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 //        return pedidoResumoModelAssembler.toCollectionModel(pedidos);
 //    }
 
+    @Override
     @CheckSecurity.Pedidos.PodePesquisar
     @GetMapping
     public PagedModel<PedidoResumoModel> pesquisar(PedidoFilter filtro,
@@ -103,6 +104,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         return pedidoModelAssembler.toModel(pedido);
     }
 
+    @Override
     @CheckSecurity.Pedidos.PodeCriar
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

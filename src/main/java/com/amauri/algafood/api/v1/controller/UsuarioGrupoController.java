@@ -53,6 +53,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
     }
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+    @Override
     @DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> desassociar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {
@@ -61,6 +62,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
     }
 
     @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
+    @Override
     @PutMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> associar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {

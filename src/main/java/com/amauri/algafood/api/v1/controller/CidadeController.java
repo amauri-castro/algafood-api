@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -53,6 +54,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
 
     @CheckSecurity.Cidades.PodeConsultar
+    @Override
     @GetMapping(value = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public CidadeModel buscar(@PathVariable Long cidadeId) {
         Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
@@ -60,6 +62,7 @@ public class CidadeController implements CidadeControllerOpenApi {
     }
 
     @CheckSecurity.Cidades.PodeEditar
+    @Override
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public CidadeModel salvar(@RequestBody @Valid CidadeInput cidadeInput) {
@@ -75,6 +78,7 @@ public class CidadeController implements CidadeControllerOpenApi {
     }
 
     @CheckSecurity.Cidades.PodeEditar
+    @Override
     @PutMapping(value = "/{cidadeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public CidadeModel atualizar(@PathVariable Long cidadeId, @RequestBody @Valid CidadeInput cidadeInput) {
         try {
@@ -87,10 +91,12 @@ public class CidadeController implements CidadeControllerOpenApi {
     }
 
     @CheckSecurity.Cidades.PodeEditar
+    @Override
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluir(@PathVariable Long cidadeId) {
+    public ResponseEntity<Void> excluir(@PathVariable Long cidadeId) {
         cadastroCidade.excluir(cidadeId);
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -69,6 +69,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
     }
 
     @CheckSecurity.Restaurantes.PodeConsultar
+    @Override
     @GetMapping
     public FotoProdutoModel buscar(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
         FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(restauranteId, produtoId);
@@ -76,6 +77,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
         return assembler.toModel(fotoProduto);
     }
 
+    @Override
     @GetMapping(produces = MediaType.ALL_VALUE)
     public ResponseEntity<?> servirFoto(@PathVariable Long restauranteId,
                                                           @PathVariable Long produtoId,
@@ -110,10 +112,12 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
     }
 
     @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
+    @Override
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
-    public void excluirFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
+    public ResponseEntity<Void> excluirFoto(@PathVariable Long restauranteId, @PathVariable Long produtoId) {
         catalogoFotoProduto.excluir(restauranteId, produtoId);
+        return ResponseEntity.noContent().build();
     }
 
     private void verificarCompatibilidadeMediaType(MediaType mediaTypeFoto, List<MediaType> mediaTypesAceitas) throws HttpMediaTypeNotAcceptableException {

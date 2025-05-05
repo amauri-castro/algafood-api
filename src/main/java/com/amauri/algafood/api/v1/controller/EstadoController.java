@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,12 +35,14 @@ public class EstadoController implements EstadoControllerOpenApi {
 
 
     @CheckSecurity.Estados.PodeConsultar
+    @Override
     @GetMapping
     public CollectionModel<EstadoModel> listar() {
         return estadoModelAssembler.toCollectionModel(estadoRepository.findAll());
     }
 
     @CheckSecurity.Estados.PodeConsultar
+    @Override
     @GetMapping("/{estadoId}")
     public EstadoModel buscar(@PathVariable Long estadoId) {
         Estado estado = cadastroEstado.buscarOuFalhar(estadoId);
@@ -47,6 +50,7 @@ public class EstadoController implements EstadoControllerOpenApi {
     }
 
     @CheckSecurity.Estados.PodeEditar
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public EstadoModel salvar(@RequestBody @Valid EstadoInput estadoInput) {
@@ -55,6 +59,7 @@ public class EstadoController implements EstadoControllerOpenApi {
     }
 
     @CheckSecurity.Estados.PodeEditar
+    @Override
     @PutMapping("/{estadoId}")
     public EstadoModel atualizar(@PathVariable Long estadoId, @RequestBody @Valid EstadoInput estadoInput) {
         Estado estadoAtual = cadastroEstado.buscarOuFalhar(estadoId);
@@ -63,9 +68,11 @@ public class EstadoController implements EstadoControllerOpenApi {
     }
 
     @CheckSecurity.Estados.PodeEditar
+    @Override
     @DeleteMapping("/{estadoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluir(@PathVariable Long estadoId) {
+    public ResponseEntity<Void> excluir(@PathVariable Long estadoId) {
         cadastroEstado.excluir(estadoId);
+        return ResponseEntity.noContent().build();
     }
 }

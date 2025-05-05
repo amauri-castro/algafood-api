@@ -41,6 +41,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
     private FormaPagamentoInputDisassembler formaPagamentoInputDisassembler;
 
     @CheckSecurity.FormasPagamento.PodeConsultar
+    @Override
     @GetMapping
     public ResponseEntity<CollectionModel<FormaPagamentoModel>> listar(ServletWebRequest request) {
         //exemplo deep etag
@@ -67,6 +68,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
     }
 
     @CheckSecurity.FormasPagamento.PodeConsultar
+    @Override
     @GetMapping("/{formaPagamentoId}")
     public ResponseEntity<FormaPagamentoModel> buscar(@PathVariable Long formaPagamentoId, ServletWebRequest request) {
         ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
@@ -105,6 +107,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 
 
     @CheckSecurity.FormasPagamento.PodeEditar
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public FormaPagamentoModel salvar(@RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
@@ -113,6 +116,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
     }
 
     @CheckSecurity.FormasPagamento.PodeEditar
+    @Override
     @PutMapping("/{formaPagamentoId}")
     public FormaPagamentoModel atualizar(@PathVariable Long formaPagamentoId, @RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
         FormaPagamento formaPagamento = cadastroFormaPagamentoService.buscarOuFalhar(formaPagamentoId);
@@ -122,10 +126,12 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
     }
 
     @CheckSecurity.FormasPagamento.PodeEditar
+    @Override
     @DeleteMapping("/{formaPagamentoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluir(@PathVariable Long formaPagamentoId) {
+    public ResponseEntity<Void> excluir(@PathVariable Long formaPagamentoId) {
         cadastroFormaPagamentoService.excluir(formaPagamentoId);
+        return ResponseEntity.noContent().build();
     }
 
 }
