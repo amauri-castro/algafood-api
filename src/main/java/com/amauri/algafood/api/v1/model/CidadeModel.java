@@ -12,10 +12,7 @@ import org.springframework.hateoas.server.core.Relation;
 @Getter
 public class CidadeModel extends RepresentationModel<CidadeModel> {
 
-    @ApiModelProperty(value = "ID da cidade", example = "1")
     private Long id;
-
-    @ApiModelProperty(example = "Teresina")
     private String nome;
     private EstadoModel estado;
 }
