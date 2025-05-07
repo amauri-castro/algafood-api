@@ -39,7 +39,7 @@ public interface CidadeControllerOpenApi {
 	CidadeModel salvar(@RequestBody(description = "Representação de uma nova cidade", required = true) CidadeInput cidadeInput);
 
 	@Operation(summary = "Atualiza uma cidade por ID", responses = {
-			@ApiResponse(responseCode = "200", description = "Cidade encontrada",
+			@ApiResponse(responseCode = "200", description = "Cidade atualizada",
 					content = @Content(schema = @Schema(ref = "Problema"))
 			),
 			@ApiResponse(responseCode = "400", description = "ID da cidade inválido",
