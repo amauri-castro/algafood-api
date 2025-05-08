@@ -58,7 +58,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
     @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @DeleteMapping("/{formaPagamentoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> desvincular(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
+    public ResponseEntity<Void> desassociar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
         cadastroRestauranteService.desvincularFormaPagamento(restauranteId, formaPagamentoId);
         return ResponseEntity.noContent().build();
     }
@@ -66,7 +66,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
     @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @PutMapping("/{formaPagamentoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> vincular(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
+    public ResponseEntity<Void> associar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
         cadastroRestauranteService.vincularFormaPagamento(restauranteId, formaPagamentoId);
         return ResponseEntity.noContent().build();
     }
