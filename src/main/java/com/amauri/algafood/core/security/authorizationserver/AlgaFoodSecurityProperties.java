@@ -17,4 +17,5 @@ public class AlgaFoodSecurityProperties {
 
     @NotBlank
     private String providerUrl;
+
 }

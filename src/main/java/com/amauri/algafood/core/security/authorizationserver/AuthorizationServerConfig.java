@@ -20,10 +20,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.time.Duration;
 import java.util.Arrays;
 
-
 @Configuration
 public class AuthorizationServerConfig {
-
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -41,6 +39,7 @@ public class AuthorizationServerConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository(PasswordEncoder passwordEncoder) {
+
         RegisteredClient algafoodbackend = RegisteredClient
                 .withId("1")
                 .clientId("algafood-backend")
@@ -56,4 +55,5 @@ public class AuthorizationServerConfig {
 
         return new InMemoryRegisteredClientRepository(Arrays.asList(algafoodbackend));
     }
+
 }
